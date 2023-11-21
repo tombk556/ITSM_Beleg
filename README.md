@@ -1,3 +1,7 @@
+# Welcome to ITSM Beleg 
+
+Konrad Adamski, Ayana Ochirova, s87654, Tom Bischopink
+
 # Setup
 
 ## **Mac**

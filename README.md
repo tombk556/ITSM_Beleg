@@ -5,6 +5,9 @@ Konrad Adamski, Ayana Ochirova, s87654, Tom Bischopink
 # Setup
 
 ## **Mac**
+
+## test
+
 ### Create Virtual Environment
 ```bash 
 python3.11 -m venv .venv

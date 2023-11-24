@@ -28,7 +28,7 @@ uvicorn app.main:app --reload
 ## **Windows**
 ### Create Virtual Environment
 ```bash 
-python3.11 -m venv .venv
+python3 -m venv .venv
 ```
 ### Acitvate Virtual Environment
 ```bash

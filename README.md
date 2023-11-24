@@ -5,6 +5,9 @@ Konrad Adamski, Ayana Ochirova, s87654, Tom Bischopink
 # Setup
 
 ## **Mac**
+
+### Please install python !!!
+
 ### Create Virtual Environment
 ```bash 
 python3.11 -m venv .venv
@@ -35,7 +38,7 @@ python3.11 -m venv .venv
 .\.venv\Scripts\activate
 ```
 
-### Install requirements.txt
+### Install requirements.txt 
 ```bash
 pip install -r requirements.txt
 ```

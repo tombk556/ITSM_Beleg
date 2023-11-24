@@ -1,6 +1,2 @@
 Hello ITSM Merge test456787
-<<<<<<< HEAD
 Hallo hier war Konrad
-=======
-Hallo hier war Tom
->>>>>>> fda7161de83635ea53c81b11ee0d9dffa53a48f2

@@ -5,9 +5,6 @@ router = APIRouter(
 )
 
 
-@router.get("/{loc}")
-def hello_world_TEST(loc: str):
-    if loc == "GERMANY":
-        return {"Hello World nach GERMANY"}
-    else:
-        return {"Hello World an alle!!!"}
+@router.get("/")
+def hello_world_TEST():
+    return {"Hello ITSM!!!"}

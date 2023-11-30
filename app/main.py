@@ -7,5 +7,5 @@ app = FastAPI()
 def root():
     return "Server is running"
 
-# app.include_router(testrouter.router)
-# app.include_router(servicenow.router)
+app.include_router(testrouter.router)
+app.include_router(servicenow.router)

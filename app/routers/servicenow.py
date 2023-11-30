@@ -1,15 +1,14 @@
 from fastapi import APIRouter, HTTPException
 import requests
-from ..config import settings
+from ..config import config
 
 router = APIRouter(
     prefix="/servicenow",
     tags=["servicenow"]
 )
-
-INSTANCE = settings.instance_sn
-USERNAME_SN = settings.username_sn
-PASSWORD_SN = settings.password_sn
+INSTANCE = config.get("INSTANCE_SN")
+USERNAME_SN = config.get("USERNAME_SN")
+PASSWORD_SN = config.get("PASSWORD_SN")
 
 
 @router.get("/get_incident")

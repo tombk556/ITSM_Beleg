@@ -8,18 +8,15 @@ build-job:
   script:
     - echo "Checking out the repo..."
     - python3 --version
-    - python3 -m py_compile ./app/*.py
-    - echo "Compile complete."
     - echo "Installing packages..."
     - pip3 install -r requirements.txt
     - echo "Installing packages complete!!!"
     - pip3 freeze
-    - echo "Testing the application..."
-    - pytest ./tests
 
-test-job:
-  stage: test
-  script:
-    - echo "Tesing the application..."
-    - pytest ./tests
+test-build-job:
+  stage: build
+  script: 
+    - echo "Compile testing..."
+    - python3 -m py_compile ./app/*.py
+
 

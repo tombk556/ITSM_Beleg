@@ -9,6 +9,5 @@ build-job:
     - python3 --version
     - python3 -m py_compile ./app/*.py
     - echo "Compile complete. Installing packages..."
-    - pip3 install pipenv
     - pip3 install -r requirements.txt
     - echo "Installing packages complete!!!"

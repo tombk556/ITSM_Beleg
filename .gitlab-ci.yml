@@ -1,7 +1,7 @@
 stages:
   - build_and_test
 
-build-job:       
+build-test-job:       
   image: python:3.9.12-slim
   stage: build_and_test
   script:
@@ -10,10 +10,6 @@ build-job:
     - echo "Installing packages..."
     - pip3 install -r requirements.txt
     - pip3 freeze
-  
-test-job:
-  stage: build_and_test
-  script:
     - echo "Testing for Snytax error and compiling issues..."
     - python3 -m py_compile ./app/*.py
     - echo "Unit Tests on HTTP Requests"

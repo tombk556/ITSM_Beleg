@@ -55,3 +55,9 @@ pip install -r requirements.txt
 ```bash
 uvicorn app.main:app --reload
 ```
+
+## **Tests**
+To run the tests run the following cmd:
+```bash
+pytest ./tests
+```

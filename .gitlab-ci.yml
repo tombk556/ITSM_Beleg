@@ -13,7 +13,7 @@ build-job:
     - echo "Installing packages complete!!!"
     - pip3 freeze
   tags:
-    toms_runner
+    - toms_runner
 
 
 test-build-job:
@@ -22,7 +22,7 @@ test-build-job:
     - echo "Compile testing..."
     - python3 -m py_compile ./app/*.py
   tags:
-    toms_runner
+    - toms_runner
 
 test:
   stage: test
@@ -30,5 +30,5 @@ test:
     - echo "Unit tests on HTTP Requests"
     - pytest ./tests
   tags:
-    toms_runner
+    - toms_runner
 

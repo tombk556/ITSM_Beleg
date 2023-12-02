@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
 
 build-job:       
   image: python:3.9.12
@@ -14,5 +15,11 @@ build-job:
     - echo "Installing packages complete!!!"
     - pip3 freeze
     - echo "Testing the application..."
+    - pytest ./tests
+
+test-job:
+  stage: test
+  script:
+    - echo "Tesing the application..."
     - pytest ./tests
 

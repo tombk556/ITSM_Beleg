@@ -12,7 +12,6 @@ build-job:
     - pip3 freeze
   
 test-job:
-  image: python:3.9.12
   stage: build_and_test
   script:
     - echo "Testing for Snytax error and compiling issues..."

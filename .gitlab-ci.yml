@@ -1,6 +1,5 @@
 stages:
   - build
-  - test
 
 build-job:       
   image: python:3.9.12
@@ -12,23 +11,15 @@ build-job:
     - pip3 install -r requirements.txt
     - echo "Installing packages complete!!!"
     - pip3 freeze
-  tags:
-    - linux
-
 
 test-build-job:
   stage: build
   script: 
     - echo "Compile testing..."
     - python3 -m py_compile ./app/*.py
-  tags:
-    - linux
 
 test:
-  stage: test
+  stage: build
   script: 
     - echo "Unit tests on HTTP Requests"
     - pytest ./tests
-  tags:
-    - linux
-

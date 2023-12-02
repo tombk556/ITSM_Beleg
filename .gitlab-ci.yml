@@ -2,19 +2,10 @@
 stages:
   - build
 
-variables:
-  PYTHON_VERSION: "3.9.12"
-
 build-job:       
   stage: build
   script:
     - echo "Checking out the repo..."
-    - echo "Getting Python $PYTHON_VERSION..."
     - python3 --version
-    - python3.9 -m venv .venv
-    - source .venv/bin/activate
-    - echo "Installing requirements..."
-    - pip3 install -r requirements.txt
-    - echo "Compiling Python files..."
     - python3 -m py_compile ./app/*.py
     - echo "Compile complete."

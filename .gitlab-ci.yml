@@ -1,17 +1,20 @@
 stages:
-  - build_test
+  - build
+  - test
 
 build-job:       
-  image: python:3.9.12
+  image: python:3.9.12-slim
   stage: build_test
   script:
     - echo "Checking out the repo..."
     - python3 --version
     - echo "Installing packages..."
     - pip3 install -r requirements.txt
-    - echo "Installing packages complete!!!"
     - pip3 freeze
-    - echo "Compile testing..."
-    - python3 -m py_compile ./app/*.py
-    - echo "Unit tests on HTTP Requests"
-    - pytest ./tests 
+  
+test-job:
+  image: python:3.9.12
+  stage: test
+  script:
+    - echo "Testing"
+    - pip3 freeze

@@ -10,9 +10,9 @@ build-job:
   script:
     - echo "Checking out the repo..."
     - echo "Getting Python $PYTHON_VERSION..."
-    - python --version
+    - python3 --version
     - echo "Installing requirements..."
     - pip install -r requirements.txt
     - echo "Compiling Python files..."
-    - python -m py_compile ./app/*.py
+    - python3 -m py_compile ./app/*.py
     - echo "Compile complete."

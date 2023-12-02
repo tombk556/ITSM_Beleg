@@ -1,10 +1,19 @@
+
 stages:
   - build
+
+variables:
+  PYTHON_VERSION: "3.9.12"
 
 build-job:       
   stage: build
   script:
-    - echo "Compiling the code..."
+    - echo "Checking out the repo..."
+    - echo "Getting Python $PYTHON_VERSION..."
+    - pyenv global $PYTHON_VERSION
+    - python --version
+    - echo "Installing requirements..."
+    - pip install -r requirements.txt
+    - echo "Compiling Python files..."
+    - python -m py_compile ./app/*.py
     - echo "Compile complete."
-
-

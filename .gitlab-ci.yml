@@ -27,5 +27,5 @@ test:
     - echo "Unit tests on HTTP Requests"
     - pytest ./tests
   dependencies:
-    - build-job
+    - test-build-job
 

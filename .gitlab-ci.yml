@@ -12,7 +12,7 @@ build-job:
     - echo "Getting Python $PYTHON_VERSION..."
     - python3 --version
     - echo "Installing requirements..."
-    - pip install -r requirements.txt
+    - pip3 install -r requirements.txt
     - echo "Compiling Python files..."
     - python3 -m py_compile ./app/*.py
     - echo "Compile complete."

@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
 
 build-job:       
   image: python:3.9.12
@@ -8,6 +9,11 @@ build-job:
     - echo "Checking out the repo..."
     - python3 --version
     - python3 -m py_compile ./app/*.py
-    - echo "Compile complete. Installing packages..."
+    - echo "Compile complete!!
+    - Installing packages..."
     - pip3 install -r requirements.txt
     - echo "Installing packages complete!!!"
+    - pip3 freeze
+    - echo "Testing the application..."
+    - pytest ./tests
+

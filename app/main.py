@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 import requests
 from .config import config
+from . import schemas
 
 INSTANCE = config.get("INSTANCE_SN")
 USERNAME_SN = config.get("USERNAME_SN")
@@ -15,6 +16,14 @@ def root():
 @app.get("/get_incident")
 def get_incidents():
     return _incidents(INSTANCE, USERNAME_SN, PASSWORD_SN)
+
+
+@app.post("/create_incident", status_code=status.HTTP_201_CREATED, response_model=schemas.Incident)
+def create_incident(inc: schemas.CreateIncident):
+    return {
+        "short_description": inc.short_description,
+        "description" : inc.description
+    }
 
 
 def _incidents(instance, user, pwd):

@@ -15,13 +15,13 @@ def test_read_root():
 def test_get_incident():
     """tests GET request for retrieving incidents
     """
-    response = client.get("/get_incident")
+    response = client.get("/incident/get_incident")
     assert response.status_code == 200
 
 def test_create_incident():
     """tests POST request for creating a new incident
     """
-    response = client.post("/create_incident",
+    response = client.post("/incident/create_incident",
         json={"short_description": "Test Incident Creation", 
               "description": "Test Incident Creation"})
 

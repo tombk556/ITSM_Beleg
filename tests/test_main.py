@@ -15,7 +15,7 @@ def test_read_root():
 def test_get_incident():
     """tests GET request for retrieving incidents
     """
-    response = client.get("/incident/get_incident")
+    response = client.get("/incident/get_incidents/date")
     assert response.status_code == 200
 
 def test_create_incident():

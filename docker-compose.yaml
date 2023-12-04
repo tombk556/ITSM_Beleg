@@ -1,7 +1,8 @@
 version: '3'
 
 services:
-  web:
+  fastapi_backend:
+    container_name: fastapi_backend
     build: .
     command: sh -c "uvicorn app.main:app --reload --port=8000 --host=0.0.0.0"
     env_file:

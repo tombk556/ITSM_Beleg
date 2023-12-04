@@ -28,6 +28,7 @@ test-job:
   stage: test
   script:
     - source myenv/bin/activate
-    - pip3 freeze
     - python3 -m py_compile ./app/*.py
+    - echo "Unit Tests on HTTP Requests"
+    - pytest ./tests
 

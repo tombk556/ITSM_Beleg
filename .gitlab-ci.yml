@@ -14,6 +14,7 @@ build-job:
     - source myenv/bin/activate
     - pip3 install -r requirements.txt
     - pip3 freeze
+    - python3 -m py_compile ./app/*.py
   artifacts:
     untracked: false
     when: on_success
@@ -25,14 +26,13 @@ build-job:
       - "myenv"
 
 test-job:
+  image: python:3.9.12-slim
   stage: test
   script:
     - echo "Checking out the repo..."
+    - pip3 install -r requirements.txt
     - python3 --version
-    - echo "Restoring Virtual Python Environment..."
-    - if [ -e "myenv/bin/activate" ]; then source myenv/bin/activate; fi
-    - echo "Running Tests..."
-    - python3 -m py_compile ./app/*.py
+    - pip3 freeze
     - pytest ./tests
   dependencies:
     - build-job

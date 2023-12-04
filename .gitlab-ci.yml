@@ -1,16 +1,20 @@
 stages:
-  - build_and_test
+  - build
 
-build-test-job:       
+build-job:       
   image: python:3.9.12-slim
-  stage: build_and_test
+  stage: build
   script:
     - echo "Checking out the repo..."
     - python3 --version
     - echo "Installing packages..."
     - pip3 install -r requirements.txt
     - pip3 freeze
-    - echo "Testing for Snytax error and compiling issues..."
-    - python3 -m py_compile ./app/*.py
-    - echo "Unit Tests on HTTP Requests"
-    - pytest ./tests
+  artifacts:
+    untracked: false
+    when: on_success
+    expire_in: 30 days
+    paths:
+      - "app"
+      - "tests"
+      - "pytest.ini"

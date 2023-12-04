@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
 
 build-job:       
   image: python:3.9.12-slim
@@ -22,3 +23,10 @@ build-job:
       - "tests"
       - "pytest.ini"
       - "myenv"
+
+test-job:
+  stage: test
+  script:
+    - source myenv/bin/activate
+    - python3 -m py_compile ./app/*.py
+

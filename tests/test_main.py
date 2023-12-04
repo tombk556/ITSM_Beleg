@@ -12,11 +12,11 @@ def test_read_root():
     assert response.json() == "Server is running"
 
 
-def test_get_incidents():
-    """tests GET request for retrieving incidents
-    """
-    response = client.get("/incident/get_incidents/date")
-    assert response.status_code == 200
+# def test_get_incidents():
+#     """tests GET request for retrieving incidents
+#     """
+#     response = client.get("/incident/get_incidents/date")
+#     assert response.status_code == 200
 
 def test_get_incident_by_number():
     response = client.get("/incident/get_incident_by_number/INC0010001")

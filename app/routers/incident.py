@@ -13,7 +13,7 @@ PASSWORD_SN = config.get("PASSWORD_SN")
 
 
 @incident.get("/get_incidents/{type}", status_code=status.HTTP_200_OK)
-def get_incidents(type: str):
+def get_incidents(type):
     incidents = _get_all_incidents(INSTANCE, USERNAME_SN, PASSWORD_SN)
 
     if type == "date":

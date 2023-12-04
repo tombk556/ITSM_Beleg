@@ -2,7 +2,23 @@
 
 Konrad Adamski, Ayana Ochirova, s87654, Tom Bischopink
 
-# Setup
+# Run with Docker
+
+### Install Docker Desktop
+
+### Set .env file with env variables
+
+- create a **.env** file 
+- put the following variables into the file to access the ServiceNow API:
+
+```bash
+INSTANCE_SN=yourinstancename
+USERNAME_SN=yourusername
+PASSWORD_SN=yourpassword
+```
+
+
+# Setup for Development
 
 ## **Mac**
 ### Create Virtual Environment

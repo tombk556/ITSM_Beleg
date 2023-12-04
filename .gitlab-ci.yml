@@ -10,8 +10,8 @@ build-job:
     - python3 --version
     - echo "Creating a Virtual Python Environment..."
     - python3 -m venv myenv
-    - source myenv/bin/activate
     - echo "Installing packages..."
+    - source myenv/bin/activate
     - pip3 install -r requirements.txt
     - pip3 freeze
   artifacts:
@@ -27,6 +27,12 @@ build-job:
 test-job:
   stage: test
   script:
-    - ls
+    - echo "Checking out the repo..."
+    - python3 --version
+    - echo "Restoring Virtual Python Environment..."
+    - if [ -e "myenv/bin/activate" ]; then source myenv/bin/activate; fi
+    - echo "Running Tests..."
+    - python3 -m py_compile ./app/*.py
+    - pytest ./tests
   dependencies:
     - build-job

@@ -4,7 +4,9 @@ Konrad Adamski, Ayana Ochirova, s87654, Tom Bischopink
 
 # Run with Docker
 
-### Install Docker Desktop
+### Install Docker Desktop 
+
+https://www.docker.com/products/docker-desktop/
 
 ### Set .env file with env variables
 
@@ -15,6 +17,12 @@ Konrad Adamski, Ayana Ochirova, s87654, Tom Bischopink
 INSTANCE_SN=yourinstancename
 USERNAME_SN=yourusername
 PASSWORD_SN=yourpassword
+```
+
+### Run Docker Compose and start the container
+
+```bash
+docker-compose up
 ```
 
 

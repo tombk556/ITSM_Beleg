@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - variablen
 
 build-job:
   image: python:3.9.12-slim
@@ -36,3 +37,11 @@ test-job:
     - pytest ./tests
   dependencies:
     - build-job
+
+var-job:
+  image: python:3.9.12-slim
+  stage: variablen
+  script: 
+    - echo $INSTANCE_SN
+    - echo $PASSWORD_SN
+    - echo $USERNAME_SN

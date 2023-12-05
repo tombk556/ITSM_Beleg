@@ -25,6 +25,12 @@ PASSWORD_SN=yourpassword
 docker-compose up
 ```
 
+### Access Docker Files:
+
+**FastAPI Backend:**
+```bash
+docker exec -it fastapi_backend /bin/bash
+```
 
 # Setup for Development
 

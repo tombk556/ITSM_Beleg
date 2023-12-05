@@ -4,10 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
  
 app = FastAPI()
  
-# Configure CORS to allow requests from http://localhost:8081
 origins = [
     "http://localhost:8081",
-    # Add more allowed origins if needed
 ]
  
 app.add_middleware(

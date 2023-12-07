@@ -19,29 +19,24 @@ USERNAME_SN=yourusername
 PASSWORD_SN=yourpassword
 ```
 
-### Run Docker Compose and start the container of FastAPI
+### Run Docker Compose application:
 
 ```bash
 docker-compose up
 ```
 
+After: visit **http://127.0.0.1:8080** to access frontend (UI) and **http://127.0.0.1:8080** to access backend!
 
-### Run Docker Image and Build to Run Vue.js Frontend
-cd frontend!!!
-#### Build the image:
-```sh
-docker build -t itsm_beleg/frontend .
-```
-
-#### Run the image:
-```sh
-docker run -it -p 8080:8080 --rm --name frontend itsm_beleg/frontend
-```
-### Access Docker Files:
+### Access Images:
 
 **FastAPI Backend:**
 ```bash
 docker exec -it fastapi_backend /bin/bash
+```
+
+**FastAPI Backend:**
+```bash
+docker exec -it vuejs_frontend /bin/bash
 ```
 
 # Setup for Development

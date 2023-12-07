@@ -34,17 +34,3 @@ npm run build
 npm run lint
 ```
 
-
-
-# Docker
-
-### Build the image:
-```sh
-docker build -t itsm_beleg/frontend .
-```
-
-### Run the image:
-```sh
-docker run -it -p 8080:8080 --rm --name frontend itsm_beleg/frontend
-```
-

@@ -1,0 +1,25 @@
+# Node.js Frontend Dockerfile
+FROM node:lts-alpine as node_builder
+
+WORKDIR /app/frontend
+
+COPY frontend/package*.json ./
+
+RUN npm install
+
+COPY frontend .
+
+RUN npm run build
+
+# Production-ready image without Node.js and build dependencies
+FROM node:lts-alpine
+
+WORKDIR /app/frontend
+
+COPY --from=node_builder /app/frontend/dist /app/frontend/dist
+
+# Install http-server globally
+RUN npm install -g http-server
+
+EXPOSE 8080
+CMD ["http-server", "dist"]

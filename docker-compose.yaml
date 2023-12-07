@@ -1,9 +1,12 @@
+# Docker Compose file
 version: '3'
 
 services:
-  fastapi_backend:
-    container_name: fastapi_backend
-    build: .
+  full_stack_app:
+    container_name: full_stack_app
+    build:
+      context: .
+      dockerfile: Dockerfile
     command: sh -c "uvicorn app.main:app --reload --port=8000 --host=0.0.0.0"
     env_file:
       - .env

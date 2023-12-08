@@ -1,8 +1,8 @@
-FROM python:3.9.12
+FROM python:3.9.12-slim
 
 WORKDIR /app
 
-COPY ./.env requirements.txt /app/
+COPY requirements.txt /app/
 
 RUN pip install -r requirements.txt
 

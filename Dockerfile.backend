@@ -2,8 +2,10 @@ FROM python:3.9.12-slim
 
 WORKDIR /app
 
+<<<<<<< HEAD
 COPY  requirements.txt /app/
+=======
+COPY . /app
+>>>>>>> parent of b38f467 (update dockerfiles)
 
 RUN pip install -r requirements.txt
-
-COPY app /app/app

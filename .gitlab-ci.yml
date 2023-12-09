@@ -39,7 +39,7 @@ test-job:
   dependencies:
     - build-job
 
-var-job:
+env-job:
   image: python:3.9.12-slim
   stage: env
   script: 
@@ -47,7 +47,7 @@ var-job:
     - echo $PASSWORD_SN
     - echo $USERNAME_SN
 
-docker-job:
+docker-frontend:
   image: docker:19.03.12
   stage: docker
   services:
@@ -56,3 +56,13 @@ docker-job:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
     - docker build -t $CI_REGISTRY_IMAGE/frontend -f Dockerfile.frontend .
     - docker push $CI_REGISTRY_IMAGE/frontend
+
+docker-backend:
+  image: docker:19.03.12
+  stage: docker
+  services:
+    - docker:dind
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
+    - docker build -t $CI_REGISTRY_IMAGE/backend -f Dockerfile.backend .
+    - docker push $CI_REGISTRY_IMAGE/backend

@@ -10,6 +10,7 @@
         class="form-control"
         placeholder="Incident Number"
         v-model="selectedNumber"
+        @keyup.enter="getIncidentByNumber(selectedNumber)"
       />
       <button class="btn btn-outline-secondary" @click="getIncidentByNumber(selectedNumber)">
         <i class="bi bi-search"></i> 

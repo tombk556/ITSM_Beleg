@@ -20,13 +20,14 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th v-for="(column, i) in columns" :key="i">
-              {{ column.label }}
-            </th>
+            <th v-for="(column, i) in columns" :key="i" @click="sort(column.field)">
+            {{ column.label }}
+            <span v-if="sortBy === column.field" :class="sortDesc ? 'arrow-up' : 'arrow-down'"></span>
+          </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(data, i) in incidents" :key="i">
+          <tr v-for="(data, i) in sortedIncidents" :key="i">
             <td>{{ i + 1 }}</td>
             <td>{{ data.number }}</td>
             <td>{{ data.date }}</td>
@@ -48,27 +49,33 @@
         columns: [
           {
               label: '#',
-              field: '#'
+              field: '#',
+              sortable: false
           },
           {
               label: 'Number',
-              field: 'number'
+              field: 'number',
+              sortable: true
           },
           {
               label: 'Date',
-              field: 'date'
+              field: 'date',
+              sortable: true
           },
           {
               label: 'Short description',
-              field: 'short_description'
+              field: 'short_description',
+              sortable: false
           },
           {
               label: 'Description',
-              field: 'description'
+              field: 'description',
+              sortable: false
           },
           {
               label: 'State',
-              field: 'state'
+              field: 'state',
+              sortable: true
           }              
         ],
         states: {
@@ -78,12 +85,24 @@
           6: 'Resolved',
           7: 'Closed',
           8: 'Canceled'
-        }
+        },
+        sortBy: 'date', // Current sorting column
+        sortDesc: true // Sort in descending order
       };
     },
     computed: {
       incidents() {
         return this.$store.state.incidents.incidents;
+      },
+      sortedIncidents() {
+        if (this.sortBy) {
+          const sortFactor = this.sortDesc ? -1 : 1;
+          return this.incidents.slice().sort((a, b) => {
+            return a[this.sortBy] > b[this.sortBy] ? sortFactor : -sortFactor;
+          });
+        } else {
+          return this.incidents;
+        }
       }
     },
     methods: {
@@ -92,7 +111,18 @@
       },
       getStateLabel(stateId) {
         return this.states[stateId] || 'Unknown';
-      }
+      },
+      sort(field) {
+        const column = this.columns.find(c => c.field === field);
+        if (column && column.sortable) {
+          if (field === this.sortBy) {
+            this.sortDesc = !this.sortDesc;
+          } else {
+            this.sortBy = field;
+            this.sortDesc = false;
+          }
+        }
+      },
     },
     mounted() {
       this.getIncidents("date");

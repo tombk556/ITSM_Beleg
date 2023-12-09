@@ -4,5 +4,5 @@ docker-job:
     - docker:dind
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE -f Dockerfile.backend .
+    - docker build -t $CI_REGISTRY_IMAGE -f Dockerfile.frontend .
     - docker push $CI_REGISTRY_IMAGE

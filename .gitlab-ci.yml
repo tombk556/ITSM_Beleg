@@ -5,4 +5,4 @@ docker-job:
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
     - docker build -t frontend -f Dockerfile.frontend .
-    - docker push Frontend
+    - docker push frontend

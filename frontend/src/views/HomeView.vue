@@ -1,10 +1,18 @@
 <script setup>
   import GetIncidentsService from "@/services/GetIncidentsService";
+  import FilterState from '@/components/FilterState.vue'
 </script>
 
 <template>
   <div class="container-fluid content overflow-auto">
-    <h4 class="my-3">Incident List</h4>
+    <div class="row my-4">
+      <div class="col col-2">
+        <h4>Incident List</h4>
+      </div>
+      <div class="col col-2">
+        <FilterState/>
+      </div>
+    </div>
     <div> 
       <table class="table table-striped">
         <thead>
@@ -20,8 +28,8 @@
             <td>{{ data.number }}</td>
             <td>{{ data.date }}</td>
             <td>{{ data.short_description }}</td> 
-            <td>{{ data.description }}</td>              
-            <td class="text-center">{{ data.state }}</td>
+            <td >{{ data.description }}</td>              
+            <td class="text-center">{{ getStateLabel(data.state) }}</td>
           </tr>
         </tbody>
       </table>
@@ -60,7 +68,15 @@
                 label: 'State',
                 field: 'state'
             }              
-        ] 
+        ],
+        states: {
+          1: 'New',
+          2: 'In Progress',
+          3: 'On Hold',
+          6: 'Resolved',
+          7: 'Closed',
+          8: 'Canceled'
+        }
       };
     },
     methods: {
@@ -73,6 +89,9 @@
             console.log(e);
           });
       },
+      getStateLabel(stateId) {
+        return this.states[stateId] || 'Unknown';
+      }
     },
     mounted() {
       this.getIncidents("date");

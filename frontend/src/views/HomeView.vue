@@ -1,5 +1,4 @@
 <script setup>
-  import GetIncidentsService from "@/services/GetIncidentsService";
   import FilterState from '@/components/FilterState.vue'
 </script>
 
@@ -42,32 +41,31 @@
     name: "App",
     data() {
       return {
-        incidents: [],
         columns: [
-            {
-                label: 'ID',
-                field: 'id'
-            },
-            {
-                label: 'Number',
-                field: 'number'
-            },
-            {
-                label: 'Date',
-                field: 'date'
-            },
-            {
-                label: 'Short description',
-                field: 'short_description'
-            },
-            {
-                label: 'Description',
-                field: 'description'
-            },
-            {
-                label: 'State',
-                field: 'state'
-            }              
+          {
+              label: '#',
+              field: '#'
+          },
+          {
+              label: 'Number',
+              field: 'number'
+          },
+          {
+              label: 'Date',
+              field: 'date'
+          },
+          {
+              label: 'Short description',
+              field: 'short_description'
+          },
+          {
+              label: 'Description',
+              field: 'description'
+          },
+          {
+              label: 'State',
+              field: 'state'
+          }              
         ],
         states: {
           1: 'New',
@@ -79,15 +77,14 @@
         }
       };
     },
+    computed: {
+      incidents() {
+        return this.$store.state.incidents.incidents;
+      }
+    },
     methods: {
       getIncidents(type) {
-        GetIncidentsService.getAll(type)
-          .then(response => {
-            this.incidents = response.data;
-          })
-          .catch(e => {
-            console.log(e);
-          });
+        this.$store.dispatch('incidents/getIncidents', type);
       },
       getStateLabel(stateId) {
         return this.states[stateId] || 'Unknown';

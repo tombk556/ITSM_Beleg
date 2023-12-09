@@ -1,5 +1,4 @@
 <script setup>
-  import GetIncidentsByStateService from "@/services/GetIncidentsByStateService";
   defineProps({
   })
 </script>
@@ -34,13 +33,7 @@
     },
     methods: {
       getIncidentsByState(stateId) {
-        GetIncidentsByStateService.getAll(stateId)
-          .then(response => {
-            //this.incidents = response.data;
-          })
-          .catch(e => {
-            console.log(e);
-          });
+        this.$store.dispatch('incidents/getIncidentsByState', stateId);
       }
     }
   };

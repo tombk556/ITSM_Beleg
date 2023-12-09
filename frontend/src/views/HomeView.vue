@@ -1,5 +1,6 @@
 <script setup>
-  import FilterState from '@/components/FilterState.vue'
+  import FilterByState from '@/components/FilterByState.vue'
+  import FilterByNumber from '@/components/FilterByNumber.vue'
 </script>
 
 <template>
@@ -8,8 +9,11 @@
       <div class="col col-2">
         <h4>Incident List</h4>
       </div>
-      <div class="col col-2">
-        <FilterState/>
+      <div class="col col-3">
+        <FilterByState/>
+      </div>
+      <div class="col col-3">
+        <FilterByNumber/>
       </div>
     </div>
     <div> 

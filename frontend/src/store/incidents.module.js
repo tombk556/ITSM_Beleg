@@ -1,5 +1,6 @@
 import GetIncidentsService from "@/services/GetIncidentsService";
 import GetIncidentsByStateService from "@/services/GetIncidentsByStateService";
+import GetIncidentByNumberService from "@/services/GetIncidentByNumberService";
 
 export default {
   namespaced: true,
@@ -22,7 +23,6 @@ export default {
       }
     },
     async getIncidentsByState({ commit, dispatch }, stateId) {
-      console.log(stateId)
       // If state = All
       if (stateId == 0) {
         // Call the getIncidents action with a default type, for example, "date"
@@ -36,6 +36,21 @@ export default {
             // Optionally handle errors here
           }
       }
-    }
+    },
+    async getIncidentByNumber({ commit, dispatch}, number) {
+      // If number = null
+      if (!number) {
+        // Call the getIncidents action with a default type, for example, "date"
+        dispatch('getIncidents', 'date');
+      } else {
+        try {
+          const response = await GetIncidentByNumberService.get(number);
+          commit('setIncidents', response.data);
+        } catch (error) {
+          console.error(error);
+          // Optionally handle errors here
+        }
+      }
+    },
   }
 }

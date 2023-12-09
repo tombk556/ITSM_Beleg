@@ -16,7 +16,7 @@
 
 <script>
   export default {
-    name: "FilterState",
+    name: "FilterByState",
     data() {
       return {
         selectedOption: '0', // set the default value to 'All'

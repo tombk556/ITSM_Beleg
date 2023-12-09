@@ -1,8 +1,18 @@
-docker-job:
+docker-job-backend:
   image: docker:19.03.12
   services:
     - docker:dind
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t frontend -f Dockerfile.frontend .
-    - docker push frontend
+    - docker build -t $CI_REGISTRY_IMAGE -f Dockerfile.backend .
+    - docker push $CI_REGISTRY_IMAGE
+
+
+docker-job-frontend:
+  image: docker:19.03.12
+  services:
+    - docker:dind
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
+    - docker build -t $CI_REGISTRY_IMAGE -f Dockerfile.frontend .
+    - docker push $CI_REGISTRY_IMAGE

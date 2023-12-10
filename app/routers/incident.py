@@ -53,7 +53,7 @@ def create_incident(inc: schemas.CreateIncident):
 
     # Überprüfung und Ausgabe
     if response.status_code == 201:
-        return response.json() # incident_data 
+        return incident_data
     else:
         raise HTTPException(status_code=response.status_code, detail=f"Fehler beim Erstellen des Incidents: {response.text}")
 
@@ -81,11 +81,9 @@ def _get_all_incidents(instance, user, pwd):
     return
 
 def _get_incident(instance, user, pwd, filter, filter_element):
-    print(f"Filter: {filter}")
     headers = {"Content-Type": "application/json",
                "Accept": "application/json"}
     if filter == "number":
-        print("number")
         url = f"https://{instance}.lab.service-now.com/api/now/table/incident?{filter}={filter_element}"
     else:
         url = f"https://{instance}.lab.service-now.com/api/now/table/incident?incident_state={filter_element}"

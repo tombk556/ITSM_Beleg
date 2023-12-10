@@ -39,10 +39,23 @@ def get_incidents_by_state(state: int):
 
 @incident.post("/create_incident", status_code=status.HTTP_201_CREATED, response_model=schemas.Incident)
 def create_incident(inc: schemas.CreateIncident):
-    return {
-        "short_description": inc.short_description,
-        "description": inc.description
+    headers = {"Content-Type": "application/json",
+               "Accept": "application/json"
+            }
+    url = f"https://{INSTANCE}.lab.service-now.com/api/now/table/incident"
+    
+    incident_data = {
+        "description": inc.description,
+        "short_description": inc.short_description
     }
+    # POST-Request an ServiceNow-API
+    response = requests.post(url, auth=(USERNAME_SN, PASSWORD_SN), headers=headers, json=incident_data)
+
+    # Überprüfung und Ausgabe
+    if response.status_code == 201:
+        return response.json() # incident_data 
+    else:
+        raise HTTPException(status_code=response.status_code, detail=f"Fehler beim Erstellen des Incidents: {response.text}")
 
 
 def _get_all_incidents(instance, user, pwd):
@@ -68,9 +81,11 @@ def _get_all_incidents(instance, user, pwd):
     return
 
 def _get_incident(instance, user, pwd, filter, filter_element):
+    print(f"Filter: {filter}")
     headers = {"Content-Type": "application/json",
                "Accept": "application/json"}
     if filter == "number":
+        print("number")
         url = f"https://{instance}.lab.service-now.com/api/now/table/incident?{filter}={filter_element}"
     else:
         url = f"https://{instance}.lab.service-now.com/api/now/table/incident?incident_state={filter_element}"

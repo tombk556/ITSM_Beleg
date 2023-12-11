@@ -1,29 +1,5 @@
 stages:
-  - build
   - deploy
-
-variables:
-  DOCKER_DRIVER: overlay2
-
-docker-frontend:
-  image: docker:19.03.12
-  stage: build
-  services:
-    - docker:dind
-  script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/frontend -f Dockerfile.frontend .
-    - docker push $CI_REGISTRY_IMAGE/frontend
-
-docker-backend:
-  image: docker:19.03.12
-  stage: build
-  services:
-    - docker:dind
-  script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/backend -f Dockerfile.backend .
-    - docker push $CI_REGISTRY_IMAGE/backend
 
 deploy:
   image: docker:19.03.12
@@ -32,5 +8,5 @@ deploy:
     - docker:dind
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
-    - docker-compose -f docker-compose.yml up -d
+    - docker-compose -f docker-compose.yaml up -d
 

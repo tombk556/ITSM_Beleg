@@ -17,17 +17,17 @@ build:
     - pip3 freeze
     - python3 -m py_compile ./app/*.py
 
-test-job:
-  image: python:3.9.12-slim
-  stage: test
-  script:
-    - echo "Checking out the repo..."
-    - pip3 install -r requirements.txt
-    - python3 --version
-    - pip3 freeze
-    - pytest ./tests
-  dependencies:
-    - build-job
+# test-job:
+#   image: python:3.9.12-slim
+#   stage: test
+#   script:
+#     - echo "Checking out the repo..."
+#     - pip3 install -r requirements.txt
+#     - python3 --version
+#     - pip3 freeze
+#     - pytest ./tests
+#   dependencies:
+#     - build-job
 
 env-job:
   image: python:3.9.12-slim

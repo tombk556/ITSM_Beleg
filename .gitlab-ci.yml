@@ -4,7 +4,8 @@ stages:
   - env
   - docker
 
-build:
+build-job:
+  image: python:3.9.12-slim
   stage: build
   script:
     - echo "Checking out the repo..."
@@ -16,6 +17,16 @@ build:
     - pip3 install -r requirements.txt
     - pip3 freeze
     - python3 -m py_compile ./app/*.py
+  artifacts:
+    untracked: false
+    when: on_success
+    expire_in: 30 days
+    paths:
+      - "app"
+      - "tests"
+      - "pytest.ini"
+      - "myenv"
+
 
 # test-job:
 #   image: python:3.9.12-slim

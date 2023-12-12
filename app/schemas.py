@@ -7,3 +7,9 @@ class Incident(BaseModel):
 class CreateIncident(Incident):
     class Config:
         orm_mode = True
+
+class UpdateIncident(Incident):
+    class Config:
+        orm_mode = True
+
+

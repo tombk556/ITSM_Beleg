@@ -126,7 +126,35 @@ def create_incident(inc: schemas.CreateIncident):
         raise HTTPException(status_code=response.status_code, detail=f"Fehler beim Erstellen des Incidents: {response.text}")
 
 
-# PUT-Methoden für die Änderung bereits existierender Incidents
-@incident.put("/update_incident/{number}", status_code=status.HTTP_200_OK, response_model=schemas.Incident)
-def update_incident(number: str, updated_incident: schemas.UpdateIncident):
-    return 1
+# PATCH-Methode für die Änderung bereits existierender Incidents
+@incident.patch("/update_incident/{number}", status_code=status.HTTP_200_OK, response_model=schemas.Incident)
+def update_incident(inc: schemas.UpdateIncident, number: str):
+    headers = {"Content-Type": "application/json",
+               "Accept": "application/json"
+            }
+    url = f"https://{INSTANCE}.lab.service-now.com/api/now/table/incident/{number}"
+
+    # Abrufung des Incidents 
+    existing_incident = _get_incident(INSTANCE, USERNAME_SN, PASSWORD_SN, filter="number", filter_element=number)
+
+    if not existing_incident:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Incident {number} kann nicht gefunden werden!")
+    else:
+        print(f"Incident vor dem Update: {existing_incident}")
+
+     # Nur die zu aktualisierenden Felder im Request-Body senden
+    update_data = {
+        "description": inc.description,
+        "short_description": inc.short_description
+    }
+
+    # PATCH-Request an ServiceNow-API
+    #response = requests.patch(url, auth=(USERNAME_SN, PASSWORD_SN), headers=headers, json=update_data)
+
+     # Überprüfen und Ausgabe
+    #if response.status_code == 200:
+    #    return incident_data
+    #else:
+    #    print(response.text)
+    #    raise HTTPException(status_code=response.status_code, detail=f"Fehler beim Aktualisieren des Incidents: {response.text}")
+    

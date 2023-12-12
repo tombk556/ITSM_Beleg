@@ -19,11 +19,17 @@ def test_get_incident_by_number():
 def test_create_incident():
     """tests POST request for creating a new incident
     """
-    response = client.post("/incident/create_incident",
-        json={"short_description": "Test Incident Creation", 
-              "description": "Test Incident Creation"})
+    test_data = {
+        "short_description": "Test Incident Creation",
+        "description": "Test Incident Creation"
+    }
 
+    response = client.post("/incident/create_incident", json=test_data)
+
+    # Response Erfolgreich?
     assert response.status_code == 201, response.text
+
+    # Daten korrekt?
     data = response.json()
     assert data["short_description"] == "Test Incident Creation"
     assert data["description"] == "Test Incident Creation"

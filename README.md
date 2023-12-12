@@ -76,11 +76,11 @@ uvicorn app.main:app --reload
 ## **Windows**
 ### Create Virtual Environment
 ```bash 
-python3 -m venv .venv
+python -m venv venv
 ```
 ### Acitvate Virtual Environment
 ```bash
-.\.venv\Scripts\activate
+venv/Scripts/activate
 ```
 
 ### Install requirements.txt 
@@ -96,5 +96,5 @@ uvicorn app.main:app --reload
 ## **Tests**
 To run the tests run the following cmd:
 ```bash
-pytest ./tests
+pytest tests
 ```

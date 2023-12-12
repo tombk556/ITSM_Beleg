@@ -1,6 +1,8 @@
-variables:
-  DOCKER_HOST: tcp://docker:2375/
-  DOCKER_DRIVER: overlay2
+stages:
+  - build
+  - test
+  - env
+  - docker
 
 # Official docker compose image.
 image:
@@ -16,6 +18,61 @@ before_script:
 build:
   stage: build
   script:
-    - docker-compose down
-    - docker-compose build
-    - docker-compose up
+    - echo "Checking out the repo..."
+    - python3 --version
+    - echo "Creating a Virtual Python Environment..."
+    - python3 -m venv myenv
+    - echo "Installing packages..."
+    - source myenv/bin/activate
+    - pip3 install -r requirements.txt
+    - pip3 freeze
+    - python3 -m py_compile ./app/*.py
+  artifacts:
+    untracked: false
+    when: on_success
+    expire_in: 30 days
+    paths:
+      - "app"
+      - "tests"
+      - "pytest.ini"
+      - "myenv"
+
+test-job:
+  image: python:3.9.12-slim
+  stage: test
+  script:
+    - echo "Checking out the repo..."
+    - pip3 install -r requirements.txt
+    - python3 --version
+    - pip3 freeze
+    - pytest ./tests
+  dependencies:
+    - build-job
+
+env-job:
+  image: python:3.9.12-slim
+  stage: env
+  script: 
+    - echo $INSTANCE_SN
+    - echo $PASSWORD_SN
+    - echo $USERNAME_SN
+
+docker-frontend:
+  image: docker:19.03.12
+  stage: docker
+  services:
+    - docker:dind
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
+    - docker build -t $CI_REGISTRY_IMAGE/frontend -f Dockerfile.frontend .
+    - docker push $CI_REGISTRY_IMAGE/frontend
+
+docker-backend:
+  image: docker:19.03.12
+  stage: docker
+  services:
+    - docker:dind
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
+    - docker build -t $CI_REGISTRY_IMAGE/backend -f Dockerfile.backend .
+    - docker push $CI_REGISTRY_IMAGE/backend

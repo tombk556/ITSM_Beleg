@@ -28,25 +28,25 @@ build-job:
       - "myenv"
 
 
-# test-job:
-#   image: python:3.9.12-slim
-#   stage: test
-#   script:
-#     - echo "Checking out the repo..."
-#     - pip3 install -r requirements.txt
-#     - python3 --version
-#     - pip3 freeze
-#     - pytest ./tests
-#   dependencies:
-#     - build-job
+test-job:
+  image: python:3.9.12-slim
+  stage: test
+  script:
+    - echo "Checking out the repo..."
+    - pip3 install -r requirements.txt
+    - python3 --version
+    - pip3 freeze
+    - pytest ./tests
+  dependencies:
+    - build-job
 
 env-job:
   image: python:3.9.12-slim
   stage: env
   script: 
-    - echo $INSTANCE_SN
-    - echo $PASSWORD_SN
-    - echo $USERNAME_SN
+    - echo $INSTANCESN
+    - echo $PASSWORDSN
+    - echo $USERNAMESN
 
 docker-frontend:
   image: docker:19.03.12

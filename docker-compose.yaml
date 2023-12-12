@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  fastapi_backend:
+    container_name: fastapi_backend
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    command: sh -c "uvicorn app.main:app --reload --port=8000 --host=0.0.0.0"
+    environment:
+      - INSTANCE_SN=${INSTANCE_SN}
+      - PASSWORD_SN=${PASSWORD_SN}
+      - USERNAME_SN=${USERNAME_SN}
+    ports:
+      - 8000:8000
+
+  node_frontend:
+    container_name: vuejs_frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - 8080:8080

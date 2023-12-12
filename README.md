@@ -19,17 +19,24 @@ USERNAME_SN=yourusername
 PASSWORD_SN=yourpassword
 ```
 
-### Run Docker Compose and start the container
+### Run Docker Compose application:
 
 ```bash
 docker-compose up
 ```
 
-### Access Docker Files:
+After: visit **http://127.0.0.1:8080** to access frontend (UI) and **http://127.0.0.1:8080** to access backend!
+
+### Access Images:
 
 **FastAPI Backend:**
 ```bash
 docker exec -it fastapi_backend /bin/bash
+```
+
+**FastAPI Backend:**
+```bash
+docker exec -it vuejs_frontend /bin/bash
 ```
 
 # Setup for Development

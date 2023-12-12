@@ -61,7 +61,7 @@ def _get_all_incidents(instance, user, pwd):
         }
     return
 
-def _get_incident(instance, user, pwd, filter, filter_element):
+def _get_incident(instance, user, pwd, filter, filter_element, with_sys_id = False):
     headers = {"Content-Type": "application/json",
                "Accept": "application/json"}
     if filter == "number":
@@ -78,7 +78,7 @@ def _get_incident(instance, user, pwd, filter, filter_element):
                 "Error Response": response.json()
             }
         else:
-            return incident_data(data =response.json())
+            return incident_data(response.json(), with_sys_id)
 
     except Exception as error:
         return {
@@ -86,7 +86,7 @@ def _get_incident(instance, user, pwd, filter, filter_element):
             "Error Response": error
         }
 
-def incident_data(data):
+def incident_data(data, with_sys_id = False):
     incidents = []
 
     for result_item in data["result"]:
@@ -97,7 +97,9 @@ def incident_data(data):
             "description": result_item.get("description"),
             "state": result_item.get("incident_state")
         }
-
+        if with_sys_id:
+            incident.update({"sys_id": result_item.get("sys_id")})
+        
         incidents.append(incident)
 
     return incidents
@@ -126,7 +128,7 @@ def create_incident(inc: schemas.CreateIncident):
         raise HTTPException(status_code=response.status_code, detail=f"Fehler beim Erstellen des Incidents: {response.text}")
 
 
-# PATCH-Methode für die Änderung bereits existierender Incidents
+# PUT-Methode für die Änderung bereits existierender Incidents
 @incident.patch("/update_incident/{number}", status_code=status.HTTP_200_OK, response_model=schemas.Incident)
 def update_incident(inc: schemas.UpdateIncident, number: str):
     headers = {"Content-Type": "application/json",
@@ -135,12 +137,13 @@ def update_incident(inc: schemas.UpdateIncident, number: str):
     url = f"https://{INSTANCE}.lab.service-now.com/api/now/table/incident/{number}"
 
     # Abrufung des Incidents 
-    existing_incident = _get_incident(INSTANCE, USERNAME_SN, PASSWORD_SN, filter="number", filter_element=number)
+    existing_incident = _get_incident(INSTANCE, USERNAME_SN, PASSWORD_SN, filter="number", filter_element=number, with_sys_id= True)
 
     if not existing_incident:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Incident {number} kann nicht gefunden werden!")
     else:
-        print(f"Incident vor dem Update: {existing_incident}")
+        sys_id = existing_incident[0].get("sys_id")
+        print(f"Sys_ID: {sys_id}")
 
      # Nur die zu aktualisierenden Felder im Request-Body senden
     update_data = {
@@ -148,13 +151,15 @@ def update_incident(inc: schemas.UpdateIncident, number: str):
         "short_description": inc.short_description
     }
 
-    # PATCH-Request an ServiceNow-API
-    #response = requests.patch(url, auth=(USERNAME_SN, PASSWORD_SN), headers=headers, json=update_data)
+    # PUT-Request an ServiceNow-API
+    url = f"https://{INSTANCE}.lab.service-now.com/api/now/table/incident/{sys_id}"
+    response = requests.patch(url, auth=(USERNAME_SN, PASSWORD_SN), headers=headers, json=update_data)
 
-     # Überprüfen und Ausgabe
-    #if response.status_code == 200:
-    #    return incident_data
-    #else:
-    #    print(response.text)
-    #    raise HTTPException(status_code=response.status_code, detail=f"Fehler beim Aktualisieren des Incidents: {response.text}")
+    # Überprüfen und Ausgabe
+    if response.status_code == 200:
+        return update_data
+    else:
+        raise HTTPException(status_code=response.status_code, detail=f"Fehler beim Aktualisieren des Incidents: {response.text}")
     
+
+

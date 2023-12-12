@@ -39,14 +39,14 @@ def test_create_incident():
 def test_update_incident():
 
     updated_data = {
-        "short_description": "Hallo 1",
-        "description": "Test Incident Creation"
+        "short_description": f"Test Incident Update {datetime.now()}",
+        "description": "Test Incident Update"
     }
     
-    #response = client.patch("/incident/update_incident/INC0010031", json=updated_data)
+    response = client.patch("/incident/update_incident/INC0010001", json=updated_data)
 
     # Überprüfe, ob der Update-Request erfolgreich war
-    #assert response.status_code == 200
+    assert response.status_code == 200
 
     # Überprüfe, ob die zurückgegebenen Daten den erwarteten aktualisierten Daten entsprechen
-    #assert response.json() == updated_data
+    assert response.json() == updated_data

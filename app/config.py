@@ -1,9 +1,9 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    instance_sn: str
-    username_sn: str
-    password_sn: str
+    instancesn: str
+    usernamesn: str
+    passwordsn: str
 
     class Config:
         env_file = ".env"

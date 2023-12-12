@@ -27,6 +27,7 @@ build-job:
       - "pytest.ini"
       - "myenv"
 
+
 test-job:
   image: python:3.9.12-slim
   stage: test
@@ -43,9 +44,9 @@ env-job:
   image: python:3.9.12-slim
   stage: env
   script: 
-    - echo $INSTANCE_SN
-    - echo $PASSWORD_SN
-    - echo $USERNAME_SN
+    - echo $INSTANCESN
+    - echo $PASSWORDSN
+    - echo $USERNAMESN
 
 docker-frontend:
   image: docker:19.03.12

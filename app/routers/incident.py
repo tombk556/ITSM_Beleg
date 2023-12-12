@@ -7,9 +7,9 @@ incident = APIRouter(
     prefix="/incident",
     tags=['Incident'])
 
-INSTANCE = settings.instance_sn
-USERNAME_SN = settings.username_sn
-PASSWORD_SN = settings.password_sn
+INSTANCE = settings.instancesn
+USERNAME_SN = settings.usernamesn
+PASSWORD_SN = settings.passwordsn
 
 
 @incident.get("/get_incidents/{type}", status_code=status.HTTP_200_OK)

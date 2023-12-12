@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status, HTTPException
-from ..config import config
+from ..config import settings
 from .. import schemas
 import requests
 
@@ -7,9 +7,9 @@ incident = APIRouter(
     prefix="/incident",
     tags=['Incident'])
 
-INSTANCE = config.get("INSTANCE_SN")
-USERNAME_SN = config.get("USERNAME_SN")
-PASSWORD_SN = config.get("PASSWORD_SN")
+INSTANCE = settings.instance_sn
+USERNAME_SN = settings.username_sn
+PASSWORD_SN = settings.password_sn
 
 
 @incident.get("/get_incidents/{type}", status_code=status.HTTP_200_OK)

@@ -1,10 +1,12 @@
-from dotenv import dotenv_values
+from pydantic_settings import BaseSettings
 
-class Config:
-    def __init__(self):
-        self.config = dotenv_values(".env")
+class Settings(BaseSettings):
+    instance_sn: str
+    username_sn: str
+    password_sn: str
 
-    def get(self, key, default=None):
-        return self.config.get(key, default)
+    class Config:
+        env_file = ".env"
 
-config = Config()
+
+settings = Settings()

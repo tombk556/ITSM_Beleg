@@ -1,8 +1,0 @@
-.myenv
-README.md
-merge.txt
-pytest.ini
-.gitignore
-.gitlab-ci.yml
-tests
-.pytest_cache

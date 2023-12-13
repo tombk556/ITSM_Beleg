@@ -18,3 +18,4 @@ def root():
     return "Server is running"
  
 app.include_router(incident.incident)
+

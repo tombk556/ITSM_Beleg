@@ -6,6 +6,7 @@ app = FastAPI()
  
 origins = [
     "http://127.0.0.1:8080",
+    "https://s87622.azurewebsites.net"
 ]
  
 app.add_middleware(

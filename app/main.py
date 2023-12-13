@@ -4,11 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
  
 app = FastAPI()
 
-# Set up CORS
-origins = [
-    "http://vuejs_frontend:8080",  # Use the service name defined in Docker Compose
-    "https://beleg.azurewebsites.net",
-]
+origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

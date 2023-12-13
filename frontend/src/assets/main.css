@@ -32,3 +32,10 @@ body, html, #app {
 .nav-tabs .nav-link.active {
   font-weight: bold;
 }
+.arrow-up::after {
+  content: '\2191';
+}
+
+.arrow-down::after {
+  content: '\2193';
+}

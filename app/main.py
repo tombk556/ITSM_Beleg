@@ -5,9 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
  
 origins = [
-    "http://127.0.0.1:8080",
-    "https://s87622.azurewebsites.net"
-]
+    "http://127.0.0.1:8080"
+    ]
  
 app.add_middleware(
     CORSMiddleware,

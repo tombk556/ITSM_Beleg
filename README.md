@@ -98,28 +98,3 @@ To run the tests run the following cmd:
 ```bash
 pytest tests
 ```
-
-
-## Docker on Azure ...
-
-```Docker
-version: '3'
-
-services:
-  fastapi_backend:
-    container_name: fastapi_backend
-    image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/backend:latest
-    command: sh -c "uvicorn app.main:app --reload --port=8000 --host=0.0.0.0"
-    environment:
-      - INSTANCESN=${INSTANCESN}
-      - PASSWORDSN=${PASSWORDSN}
-      - USERNAMESN=${USERNAMESN}
-    ports:
-      - 8000:8000
-
-  vuejs_frontend:
-    container_name: vuejs_frontend
-    image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/frontend:latest
-    ports:
-      - 8080:8080
-```

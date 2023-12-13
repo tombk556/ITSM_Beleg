@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
  
 app = FastAPI()
 
-origins = ["*"]
+origins = ["https://beleg.azurewebsites.net"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

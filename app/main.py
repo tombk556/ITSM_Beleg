@@ -5,9 +5,11 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
  
 origins = [
-    "localhost",
-    "http://127.0.0.1:8080",
-    "https://beleg.azurewebsites.net/",
+        "http://localhost",
+        "http://127.0.0.1",
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+        "https://beleg.azurewebsites.net"
     ]
  
 app.add_middleware(

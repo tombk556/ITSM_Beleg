@@ -2,6 +2,14 @@ FROM python:3.9.12-slim
 
 WORKDIR /app
 
+ARG VAR1
+ARG VAR2
+ARG VAR3
+
+ENV INSTANCESN=$VAR1
+ENV PASSWORDSN=$VAR2
+ENV USERNAMESN=$VAR3
+
 COPY requirements.txt /app/
 
 RUN pip install -r requirements.txt

@@ -3,13 +3,13 @@ version: '3'
 services:
   fastapi_backend:
     container_name: fastapi_backend
-    image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/backend:latest
+    image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/backend:prod
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0"]
     ports:
       - 8000:8000
 
   vuejs_frontend:
     container_name: vuejs_frontend
-    image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/frontend:latest
+    image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/frontend:prod
     ports:
       - 8080:8080

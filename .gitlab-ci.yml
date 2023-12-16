@@ -46,8 +46,8 @@ docker-frontend:
     - docker:dind
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/frontend -f Dockerfile.frontend .
-    - docker push $CI_REGISTRY_IMAGE/frontend
+    - docker build -t $CI_REGISTRY_IMAGE/myfrontend -f Dockerfile.frontend .
+    - docker push $CI_REGISTRY_IMAGE/myfrontend
 
 docker-backend:
   image: docker:19.03.12
@@ -56,5 +56,5 @@ docker-backend:
     - docker:dind
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/backend -f Dockerfile.backend .
-    - docker push $CI_REGISTRY_IMAGE/backend
+    - docker build -t mybackend -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN
+    - docker push $CI_REGISTRY_IMAGE/mybackend

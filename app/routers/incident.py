@@ -1,6 +1,7 @@
 from fastapi import APIRouter, status, HTTPException
 from ..config import settings
 from .. import schemas
+from datetime import datetime, timedelta
 import requests
 
 incident = APIRouter(
@@ -108,6 +109,32 @@ def incident_data(data):
     return incidents
 
 
+@incident.get("/get_incidents_since/{time_data}")
+def get_incident_by_date(time_data: str):
+    data = get_incidents("date")
+
+    if time_data == "yesterday":
+        # Der aktuelle Tag
+        current_day = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
+        # Vortag
+        yesterday = current_day - timedelta(days=1)
+
+        filtered_data = [entry for entry in data if datetime.strptime(entry["date"], "%Y-%m-%d %H:%M:%S") >= yesterday]
+        return filtered_data 
+    
+    elif "-" in time_data:
+        try:
+            mydate = datetime.strptime(time_data, "%Y-%m-%d")
+            filtered_data = [entry for entry in data if datetime.strptime(entry["date"], "%Y-%m-%d %H:%M:%S").date() >= mydate.date()]
+            return filtered_data 
+        except ValueError:
+            return {"error": "Ungültiges Datumsformat. Verwenden Sie das Format %Y-%m-%d."}
+    else:
+        return HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                             detail="Ungültiges Datumsformat. Verwenden Sie das Format %Y-%m-%d oder yesterday")
+
+    #return _get_incident(INSTANCE, USERNAME_SN, PASSWORD_SN, filter="number", filter_element=number)
 
 # POST-Methode zur Erstellung neuer Incidents
 

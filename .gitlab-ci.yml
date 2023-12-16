@@ -1,7 +1,6 @@
 stages:
   - build
   - test
-  - env
   - docker
 
 build-job:
@@ -17,16 +16,6 @@ build-job:
     - pip3 install -r requirements.txt
     - pip3 freeze
     - python3 -m py_compile ./app/*.py
-  artifacts:
-    untracked: false
-    when: on_success
-    expire_in: 30 days
-    paths:
-      - "app"
-      - "tests"
-      - "pytest.ini"
-      - "myenv"
-
 
 test-job:
   image: python:3.9.12-slim
@@ -40,14 +29,6 @@ test-job:
   dependencies:
     - build-job
 
-env-job:
-  image: python:3.9.12-slim
-  stage: env
-  script: 
-    - echo $INSTANCESN
-    - echo $PASSWORDSN
-    - echo $USERNAMESN
-
 docker-frontend:
   image: docker:19.03.12
   stage: docker
@@ -55,8 +36,8 @@ docker-frontend:
     - docker:dind
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/frontend -f Dockerfile.frontend .
-    - docker push $CI_REGISTRY_IMAGE/frontend
+    - docker build -t $CI_REGISTRY_IMAGE/frontend:prod -f Dockerfile.frontend .
+    - docker push $CI_REGISTRY_IMAGE/frontend:prod
 
 docker-backend:
   image: docker:19.03.12
@@ -65,5 +46,5 @@ docker-backend:
     - docker:dind
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/backend -f Dockerfile.backend .
-    - docker push $CI_REGISTRY_IMAGE/backend
+    - docker build -t $CI_REGISTRY_IMAGE/backend:prod -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN .
+    - docker push $CI_REGISTRY_IMAGE/backend:prod

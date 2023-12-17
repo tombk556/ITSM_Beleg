@@ -17,7 +17,6 @@ build-job:
     - pip3 freeze
     - python3 -m py_compile ./app/*.py
 
-
 test-job:
   image: python:3.9.12-slim
   stage: test

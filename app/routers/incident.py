@@ -134,6 +134,8 @@ def get_incident_by_date(time_data: str):
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                              detail="Ungültiges Datumsformat. Verwenden Sie das Format %Y-%m-%d oder yesterday")
 
+    #return _get_incident(INSTANCE, USERNAME_SN, PASSWORD_SN, filter="number", filter_element=number)
+
 # POST-Methode zur Erstellung neuer Incidents
 
 @incident.post("/create_incident", status_code=status.HTTP_201_CREATED, response_model=schemas.Incident)

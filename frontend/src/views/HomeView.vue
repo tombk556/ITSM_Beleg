@@ -7,7 +7,7 @@
   <div class="container-fluid content overflow-auto">
     <div class="row my-4">
       <div class="col col-2">
-        <h4>Incident List</h4>
+        <h4>Incidents List</h4>
       </div>
       <div class="col col-3">
         <FilterByState/>

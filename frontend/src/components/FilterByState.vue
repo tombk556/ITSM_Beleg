@@ -33,7 +33,7 @@
     },
     methods: {
       getIncidentsByState(stateId) {
-        this.$store.dispatch('incidents/getIncidentsByState', stateId);
+        this.$store.dispatch('get_incidents/getIncidentsByState', stateId);
       }
     }
   };

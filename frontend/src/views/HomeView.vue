@@ -1,19 +1,26 @@
 <script setup>
   import FilterByState from '@/components/FilterByState.vue'
   import FilterByNumber from '@/components/FilterByNumber.vue'
+  import CreateIncidentModal from '@/components/CreateIncidentModal.vue'
+  import UpdateIncidentModal from '@/components/UpdateIncidentModal.vue'
+  import DeleteIncidentModal from '@/components/DeleteIncidentModal.vue'
+  import { Modal } from 'bootstrap';
 </script>
 
 <template>
   <div class="container-fluid content overflow-auto">
     <div class="row my-4">
       <div class="col col-2">
-        <h4>Incidents List</h4>
+        <h4>Incident List</h4>
       </div>
       <div class="col col-3">
         <FilterByState/>
       </div>
       <div class="col col-3">
         <FilterByNumber/>
+      </div>
+      <div class="col col-4 d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-secondary" @click="openCreateIncidentModal()">Create Incident <i class="bi bi-plus-lg"></i> </button>
       </div>
     </div>
     <div> 
@@ -34,11 +41,24 @@
             <td>{{ data.short_description }}</td> 
             <td >{{ data.description }}</td>              
             <td class="text-center">{{ getStateLabel(data.state) }}</td>
+            <td>
+              <div class="d-flex"> 
+                <button type="button" class="btn btn-outline-secondary mx-1" @click="openUpdateIncidentModal(data)">
+                  <i class="bi bi-pencil-square"></i> 
+                </button>
+                <button class="btn btn-outline-secondary mx-1" @click="openDeleteIncidentModal(data)">
+                  <i class="bi bi-trash3"></i> 
+                </button>
+              </div>
+            </td> 
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+  <CreateIncidentModal @close-incident-modal="closeIncidentModal"/>
+  <UpdateIncidentModal @close-incident-modal="closeIncidentModal"/>
+  <DeleteIncidentModal @close-incident-modal="closeIncidentModal"/>
 </template>
 
 <script>
@@ -76,7 +96,12 @@
               label: 'State',
               field: 'state',
               sortable: true
-          }              
+          },
+          {
+              label: 'Actions',
+              field: 'actions',
+              sortable: false
+          }                
         ],
         states: {
           1: 'New',
@@ -92,7 +117,7 @@
     },
     computed: {
       incidents() {
-        return this.$store.state.incidents.incidents;
+        return this.$store.state.get_incidents.incidents;
       },
       sortedIncidents() {
         if (this.sortBy) {
@@ -107,7 +132,7 @@
     },
     methods: {
       getIncidents(type) {
-        this.$store.dispatch('incidents/getIncidents', type);
+        this.$store.dispatch('get_incidents/getIncidents', type);
       },
       getStateLabel(stateId) {
         return this.states[stateId] || 'Unknown';
@@ -123,6 +148,38 @@
           }
         }
       },
+      openCreateIncidentModal(){
+        this.$store.state.create_incident.incident = {};
+        this.createIncidentModal = new Modal(document.getElementById('createIncidentModal'), {});
+        this.createIncidentModal.show();
+      },
+      openUpdateIncidentModal(data){
+        const incidentData = Object.assign({}, data);;
+        this.$store.state.update_incident.incident = incidentData;
+        this.updateIncidentModal = new Modal(document.getElementById('updateIncidentModal'), {});
+        this.updateIncidentModal.show();
+      },
+      openDeleteIncidentModal(data){
+        const incidentData = Object.assign({}, data);;
+        this.$store.state.delete_incident.incident = incidentData;
+        this.deleteIncidentModal = new Modal(document.getElementById('deleteIncidentModal'), {});
+        this.deleteIncidentModal.show();
+      },
+      closeIncidentModal(type){
+        let modal;
+        switch(type) {
+          case "create":
+            modal = this.createIncidentModal;
+            break;
+          case "update":
+            modal = this.updateIncidentModal;
+            break;
+          case "delete":
+            modal = this.deleteIncidentModal;
+            break;
+        }
+        modal.hide();
+      }
     },
     mounted() {
       this.getIncidents("date");

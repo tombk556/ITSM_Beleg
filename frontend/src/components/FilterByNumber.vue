@@ -31,7 +31,7 @@
     },
     methods: {
       getIncidentByNumber(number) {
-        this.$store.dispatch('incidents/getIncidentByNumber', number);
+        this.$store.dispatch('get_incidents/getIncidentByNumber', number);
       }
     }
   };

@@ -98,3 +98,6 @@ To run the tests run the following cmd:
 ```bash
 pytest tests
 ```
+```bash
+pytest tests --capture=no
+```

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://itsmgruppe1backend.azurewebsites.net",
+  baseURL: "http://127.0.0.1:8000",
   headers: {
     "Content-type": "application/json"
   }

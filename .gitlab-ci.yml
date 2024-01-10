@@ -40,7 +40,7 @@ docker-frontend-local:
     - docker build -t $CI_REGISTRY_IMAGE/local/frontend -f Dockerfile.frontend .
     - docker push $CI_REGISTRY_IMAGE/local/frontend
   only:
-    - production
+    - main
 
 docker-backend-local:
   image: docker:19.03.12

@@ -1,7 +1,8 @@
 stages:
   - build
   - test
-  - docker
+  - docker_prod
+  - docker_local
 
 build-job:
   image: python:3.9.12-slim
@@ -29,9 +30,33 @@ test-job:
   dependencies:
     - build-job
 
-docker-frontend:
+docker-frontend-local:
   image: docker:19.03.12
-  stage: docker
+  stage: docker_local
+  services:
+    - docker:dind
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
+    - docker build -t $CI_REGISTRY_IMAGE/local/frontend -f Dockerfile.frontend .
+    - docker push $CI_REGISTRY_IMAGE/local/frontend
+  only:
+    - production
+
+docker-backend-local:
+  image: docker:19.03.12
+  stage: docker_local
+  services:
+    - docker:dind
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
+    - docker build -t $CI_REGISTRY_IMAGE/local/backend -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN .
+    - docker push $CI_REGISTRY_IMAGE/local/backend
+  only:
+    - main
+    
+docker-frontend-prod:
+  image: docker:19.03.12
+  stage: docker_prod
   services:
     - docker:dind
   script:
@@ -41,9 +66,9 @@ docker-frontend:
   only:
     - production
 
-docker-backend:
+docker-backend-prod:
   image: docker:19.03.12
-  stage: docker
+  stage: docker_prod
   services:
     - docker:dind
   script:
@@ -52,3 +77,4 @@ docker-backend:
     - docker push $CI_REGISTRY_IMAGE/production/backend
   only:
     - production
+

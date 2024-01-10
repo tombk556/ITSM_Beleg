@@ -41,6 +41,7 @@ docker-frontend-local:
     - docker push $CI_REGISTRY_IMAGE/local/frontend
   only:
     - main
+    - kubernetes
 
 docker-backend-local:
   image: docker:19.03.12
@@ -77,4 +78,3 @@ docker-backend-prod:
     - docker push $CI_REGISTRY_IMAGE/production/backend
   only:
     - production
-

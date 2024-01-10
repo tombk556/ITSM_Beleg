@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: vuejs-app
-        image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/production/frontend
+        image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/local/frontend
         ports:
         - containerPort: 8080
       imagePullSecrets:

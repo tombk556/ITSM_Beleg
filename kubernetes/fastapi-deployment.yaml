@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fastapi-app
+  template:
+    metadata:
+      labels:
+        app: fastapi-app
+    spec:
+      containers:
+      - name: fastapi-app
+        image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/local/backend
+        command: ["uvicorn", "app.main:app", "--host", "0.0.0.0"]
+        ports:
+        - containerPort: 8000
+      imagePullSecrets:
+      - name: gitlab-reg-cred
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-app-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8000
+  selector:
+    app: fastapi-app

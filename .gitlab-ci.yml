@@ -1,8 +1,8 @@
 stages:
   - build
   - test
-  - docker_prod
-  - docker_local
+  - docker
+  - kubernetes
 
 build-job:
   image: python:3.9.12-slim
@@ -30,51 +30,23 @@ test-job:
   dependencies:
     - build-job
 
-docker-frontend-local:
+docker-frontend:
   image: docker:19.03.12
-  stage: docker_local
+  stage: docker
   services:
     - docker:dind
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/local/frontend -f Dockerfile.frontend .
-    - docker push $CI_REGISTRY_IMAGE/local/frontend
-  only:
-    - main
-    - kubernetes
+    - docker build -t $CI_REGISTRY_IMAGE/kube/frontend -f Dockerfile.frontend .
+    - docker push $CI_REGISTRY_IMAGE/kube/frontend
 
-docker-backend-local:
+docker-backend:
   image: docker:19.03.12
-  stage: docker_local
+  stage: kube
   services:
     - docker:dind
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/local/backend -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN .
-    - docker push $CI_REGISTRY_IMAGE/local/backend
-  only:
-    - main
-    
-docker-frontend-prod:
-  image: docker:19.03.12
-  stage: docker_prod
-  services:
-    - docker:dind
-  script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/production/frontend -f Dockerfile.frontend .
-    - docker push $CI_REGISTRY_IMAGE/production/frontend
-  only:
-    - production
+    - docker build -t $CI_REGISTRY_IMAGE/kube/backend -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN .
+    - docker push $CI_REGISTRY_IMAGE/kube/backend
 
-docker-backend-prod:
-  image: docker:19.03.12
-  stage: docker_prod
-  services:
-    - docker:dind
-  script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/production/backend -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN .
-    - docker push $CI_REGISTRY_IMAGE/production/backend
-  only:
-    - production

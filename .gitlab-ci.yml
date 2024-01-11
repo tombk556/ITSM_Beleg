@@ -2,7 +2,6 @@ stages:
   - build
   - test
   - docker
-  - kubernetes
 
 build-job:
   image: python:3.9.12-slim
@@ -42,7 +41,7 @@ docker-frontend:
 
 docker-backend:
   image: docker:19.03.12
-  stage: kube
+  stage: docker
   services:
     - docker:dind
   script:

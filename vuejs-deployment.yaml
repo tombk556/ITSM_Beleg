@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vuejs-app-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vuejs-app
+  template:
+    metadata:
+      labels:
+        app: vuejs-app
+    spec:
+      containers:
+      - name: vuejs-app
+        image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/production/frontend
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: gitlab-reg-cred
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: vuejs-app-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+  selector:
+    app: vuejs-app

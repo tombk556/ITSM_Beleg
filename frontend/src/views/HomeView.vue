@@ -13,13 +13,16 @@
       <div class="col col-2">
         <h4>Incident List</h4>
       </div>
-      <div class="col col-3">
+      <div class="col col-2">
         <FilterByState/>
       </div>
       <div class="col col-3">
         <FilterByNumber/>
       </div>
-      <div class="col col-4 d-flex justify-content-end">
+      <div class="col col-3">
+        <button type="button" class="btn btn-outline-secondary" @click="getIncidentsSinceYesterday()">Get incidents since yesterday</button>
+      </div>
+      <div class="col col-2 d-flex justify-content-end">
         <button type="button" class="btn btn-outline-secondary" @click="openCreateIncidentModal()">Create Incident <i class="bi bi-plus-lg"></i> </button>
       </div>
     </div>
@@ -133,6 +136,9 @@
     methods: {
       getIncidents(type) {
         this.$store.dispatch('get_incidents/getIncidents', type);
+      },
+      getIncidentsSinceYesterday() {
+        this.$store.dispatch('get_incidents/getIncidentsSinceYesterday');
       },
       getStateLabel(stateId) {
         return this.states[stateId] || 'Unknown';

@@ -18,7 +18,6 @@ spec:
         image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/kube/frontend
         ports:
         - containerPort: 8080
-        imagePullPolicy: Always
       imagePullSecrets:
       - name: gitlab-reg-cred
 

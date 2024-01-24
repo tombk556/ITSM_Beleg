@@ -35,6 +35,7 @@ docker-backend:
     - docker push $CI_REGISTRY_IMAGE/kube/backend
 
 deploy:
+  stage: deploy
   image:
     name: dtzar/helm-kubectl
     entrypoint: ['']

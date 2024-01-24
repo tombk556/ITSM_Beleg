@@ -4,7 +4,7 @@ metadata:
   namespace: itsmbeleg
   name: vuejs-app-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: vuejs-app
@@ -23,8 +23,8 @@ spec:
           requests:
             cpu: "1m"
             memory: "512Mi"
-          ports:
-          - containerPort: 8080
+        ports:
+        - containerPort: 8080
         imagePullSecrets:
         - name: gitlab-reg-cred
         imagePullPolicy: Always

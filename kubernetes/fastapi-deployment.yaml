@@ -4,7 +4,7 @@ metadata:
   namespace: itsmbeleg
   name: fastapi-app-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: fastapi-app
@@ -19,8 +19,16 @@ spec:
         command: ["uvicorn", "app.main:app", "--host", "0.0.0.0"]
         ports:
         - containerPort: 8000
-      imagePullSecrets:
-      - name: gitlab-reg-cred
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Mi"
+          requests:
+            cpu: "1m"
+            memory: "512Mi"
+        imagePullSecrets:
+        - name: gitlab-reg-cred
+        imagePullPolicy: Always
       
 
 ---

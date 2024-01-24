@@ -16,10 +16,18 @@ spec:
       containers:
       - name: vuejs-app
         image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/kube/frontend:latest
-        ports:
-        - containerPort: 8080
-      imagePullSecrets:
-      - name: gitlab-reg-cred
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Mi"
+          requests:
+            cpu: "1m"
+            memory: "512Mi"
+          ports:
+          - containerPort: 8080
+        imagePullSecrets:
+        - name: gitlab-reg-cred
+        imagePullPolicy: Always
 
 ---
 

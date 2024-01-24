@@ -94,6 +94,11 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
+### Install k6
+```bash
+winget install k6 --source winget
+```
+
 ## **Tests**
 To run the tests run the following cmd:
 ```bash

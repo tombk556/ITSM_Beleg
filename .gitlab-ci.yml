@@ -1,9 +1,11 @@
 deploy:
   image:
-    name: bitnami/kubectl:latest
+    name: dtzar/helm-kubectl
     entrypoint: ['']
   script:
-    - kubectl --help
+    - mkdir -p /root/.kube
+    - cat $KUBECONFIG > /root/.kube/config
+    - kubectl cluster-info
 
 
 

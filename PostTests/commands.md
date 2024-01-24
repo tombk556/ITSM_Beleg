@@ -1,7 +1,19 @@
-# Windows 
-## Install k6
+# Install k6
+[Installation Guide](https://grafana.com/docs/k6/latest/get-started/installation/)
+
+## Windows 
 ```bash
 winget install k6 --source winget
+```
+
+## MacOS
+```bash
+brew install k6
+```
+
+## Docker
+```bash
+docker pull grafana/k6
 ```
 
 # Run Tests

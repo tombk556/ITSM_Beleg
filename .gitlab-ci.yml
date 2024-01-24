@@ -3,6 +3,7 @@ stages:
   - test
   - docker_prod
   - docker_local
+  - PostTests
 
 build-job:
   image: python:3.9.12-slim
@@ -77,4 +78,24 @@ docker-backend-prod:
     - docker push $CI_REGISTRY_IMAGE/production/backend
   only:
     - production
+
+IntegrationTest:
+  stage: PostTest
+  image:
+    name: grafana/k6
+    entrypoint: [""]
+  scrypt:
+    - k6 run ./PostTests/integrationtest.js
+  only:
+    - main
+
+LoadTest:
+  stage: PostTest
+  image:
+    name: grafana/k6
+    entrypoint: [""]
+  scrypt:
+    - k6 run ./PostTests/loadtest.js
+  only:
+    - main
 

@@ -12,8 +12,7 @@ test-job:
     - python3 --version
     - pip3 freeze
     - pytest ./tests
-  dependencies:
-    - build-job
+
 
 docker-frontend:
   image: docker:19.03.12
@@ -43,4 +42,6 @@ deploy:
     - mkdir -p /root/.kube
     - cat $KUBECONFIG > /root/.kube/config 
     - kubectl cluster-info
-    - kubectl apply
+    - kubectl apply -f kubernetes/00_namespace.yaml
+    - kubectl apply -f kubernetes/01_secret_dockreg.yaml
+    - kubectl apply -f kubernetes/vuejs-deployment.ymal

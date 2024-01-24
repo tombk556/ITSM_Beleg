@@ -15,7 +15,7 @@ app.add_middleware(
  
 @app.get("/")
 def root():
-    return "Server is running - Version 0.14"
+    return "Server is running - Version 0.14.1"
  
 app.include_router(incident.incident)
 

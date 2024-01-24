@@ -19,7 +19,6 @@ spec:
         command: ["uvicorn", "app.main:app", "--host", "0.0.0.0"]
         ports:
         - containerPort: 8000
-        imagePullPolicy: Always  
       imagePullSecrets:
       - name: gitlab-reg-cred
       

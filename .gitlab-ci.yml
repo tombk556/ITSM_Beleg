@@ -46,3 +46,4 @@ deploy:
     - kubectl apply -f kubernetes/00_namespace.yaml
     - kubectl apply -f kubernetes/01_secret_dockreg.yaml
     - kubectl apply -f kubernetes/vuejs-deployment.yaml
+    - kubectl apply -f kubernetes/fastapi-deployment.yaml

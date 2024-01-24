@@ -1,6 +1,6 @@
 deploy:
   image:
-    name: dtzar/helm-kubectl
+    name: bitnami/kubectl:latest
     entrypoint: ['']
   script:
     - mkdir -p /root/.kube

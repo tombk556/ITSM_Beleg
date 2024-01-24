@@ -84,7 +84,7 @@ IntegrationTest:
   image:
     name: grafana/k6
     entrypoint: [""]
-  scrypt:
+  script:
     - k6 run ./PostTests/integrationtest.js
   only:
     - main
@@ -94,7 +94,7 @@ LoadTest:
   image:
     name: grafana/k6
     entrypoint: [""]
-  scrypt:
+  script:
     - k6 run ./PostTests/loadtest.js
   only:
     - main

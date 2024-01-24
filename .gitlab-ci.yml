@@ -56,8 +56,6 @@ IntegrationTest:
     entrypoint: [""]
   script:
     - k6 run ./PostTests/integrationtest.js
-  only:
-    - main
 
 LoadTest:
   stage: PostTests
@@ -66,5 +64,3 @@ LoadTest:
     entrypoint: [""]
   script:
     - k6 run ./PostTests/loadtest.js
-  only:
-    - main

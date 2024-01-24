@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://fastapi-app-service.itsmbeleg.svc.cluster.local:8000",
+  baseURL: "http://4.207.199.248:8000",
   headers: {
     "Content-type": "application/json"
   }

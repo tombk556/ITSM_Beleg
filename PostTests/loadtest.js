@@ -9,7 +9,7 @@ export let options = {
     vus: 3,             // virtual user - emulate number of user
     duration: '30s',    // run test for given time
     thresholds: {
-        http_req_duration: ["p(95)<2000"] // für Gitlab-Runner hoch gesetzt
+        http_req_duration: ["p(95)<8000"] // für Gitlab-Runner hoch gesetzt
         //http_req_duration: ["p(95)<200"] // lokal
     }
 };

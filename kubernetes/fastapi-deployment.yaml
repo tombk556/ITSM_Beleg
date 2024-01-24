@@ -16,6 +16,7 @@ spec:
       containers:
       - name: fastapi-app
         image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/kube/backend
+        imagePullPolicy: Always
         command: ["uvicorn", "app.main:app", "--host", "0.0.0.0"]
         ports:
         - containerPort: 8000

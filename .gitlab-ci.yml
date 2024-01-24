@@ -2,6 +2,7 @@ stages:
   - test
   - docker
   - deploy
+  - PostTests
 
 test-job:
   image: python:3.9.12-slim
@@ -12,6 +13,7 @@ test-job:
     - python3 --version
     - pip3 freeze
     - pytest ./tests
+    - python3 -m py_compile ./app/*.py
 
 
 docker-frontend:
@@ -38,7 +40,6 @@ deploy:
   stage: deploy
   image:
     name: dtzar/helm-kubectl
-    entrypoint: ['']
   script:
     - mkdir -p /root/.kube
     - cat $KUBECONFIG > /root/.kube/config 
@@ -47,3 +48,23 @@ deploy:
     - kubectl apply -f kubernetes/01_secret_dockreg.yaml
     - kubectl apply -f kubernetes/vuejs-deployment.yaml
     - kubectl apply -f kubernetes/fastapi-deployment.yaml
+
+IntegrationTest:
+  stage: PostTests
+  image:
+    name: grafana/k6
+    entrypoint: [""]
+  script:
+    - k6 run ./PostTests/integrationtest.js
+  only:
+    - main
+
+LoadTest:
+  stage: PostTests
+  image:
+    name: grafana/k6
+    entrypoint: [""]
+  script:
+    - k6 run ./PostTests/loadtest.js
+  only:
+    - main

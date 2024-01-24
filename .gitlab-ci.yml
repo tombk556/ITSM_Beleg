@@ -1,3 +1,40 @@
+stages:
+  - test
+  - docker
+  - deploy
+
+test-job:
+  image: python:3.9.12-slim
+  stage: test
+  script:
+    - echo "Checking out the repo..."
+    - pip3 install -r requirements.txt
+    - python3 --version
+    - pip3 freeze
+    - pytest ./tests
+  dependencies:
+    - build-job
+
+docker-frontend:
+  image: docker:19.03.12
+  stage: docker
+  services:
+    - docker:dind
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
+    - docker build -t $CI_REGISTRY_IMAGE/kube/frontend -f Dockerfile.frontend .
+    - docker push $CI_REGISTRY_IMAGE/kube/frontend
+
+docker-backend:
+  image: docker:19.03.12
+  stage: docker
+  services:
+    - docker:dind
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
+    - docker build -t $CI_REGISTRY_IMAGE/kube/backend -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN .
+    - docker push $CI_REGISTRY_IMAGE/kube/backend
+
 deploy:
   image:
     name: dtzar/helm-kubectl
@@ -5,59 +42,5 @@ deploy:
   script:
     - mkdir -p /root/.kube
     - cat $KUBECONFIG > /root/.kube/config 
-    - head -n 10 /root/.kube/config 
     - kubectl cluster-info
-
-
-
-# stages:
-#   - build
-#   - test
-#   - docker
-
-# build-job:
-#   image: python:3.9.12-slim
-#   stage: build
-#   script:
-#     - echo "Checking out the repo..."
-#     - python3 --version
-#     - echo "Creating a Virtual Python Environment..."
-#     - python3 -m venv myenv
-#     - echo "Installing packages..."
-#     - source myenv/bin/activate
-#     - pip3 install -r requirements.txt
-#     - pip3 freeze
-#     - python3 -m py_compile ./app/*.py
-
-# test-job:
-#   image: python:3.9.12-slim
-#   stage: test
-#   script:
-#     - echo "Checking out the repo..."
-#     - pip3 install -r requirements.txt
-#     - python3 --version
-#     - pip3 freeze
-#     - pytest ./tests
-#   dependencies:
-#     - build-job
-
-# docker-frontend:
-#   image: docker:19.03.12
-#   stage: docker
-#   services:
-#     - docker:dind
-#   script:
-#     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-#     - docker build -t $CI_REGISTRY_IMAGE/kube/frontend -f Dockerfile.frontend .
-#     - docker push $CI_REGISTRY_IMAGE/kube/frontend
-
-# docker-backend:
-#   image: docker:19.03.12
-#   stage: docker
-#   services:
-#     - docker:dind
-#   script:
-#     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-#     - docker build -t $CI_REGISTRY_IMAGE/kube/backend -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN .
-#     - docker push $CI_REGISTRY_IMAGE/kube/backend
-
+    - kubectl apply

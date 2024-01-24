@@ -18,16 +18,15 @@ spec:
         image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/kube/frontend:latest
         resources:
           limits:
-            cpu: "1"
-            memory: "1Mi"
+            cpu: "1000m"
+            memory: "512Mi"
           requests:
             cpu: "1m"
-            memory: "512Mi"
+            memory: "1Mi"
         ports:
         - containerPort: 8080
-        imagePullSecrets:
-        - name: gitlab-reg-cred
-        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: gitlab-reg-cred
 
 ---
 

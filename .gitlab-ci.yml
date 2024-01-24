@@ -80,7 +80,7 @@ docker-backend-prod:
     - production
 
 IntegrationTest:
-  stage: PostTest
+  stage: PostTests
   image:
     name: grafana/k6
     entrypoint: [""]
@@ -90,7 +90,7 @@ IntegrationTest:
     - main
 
 LoadTest:
-  stage: PostTest
+  stage: PostTests
   image:
     name: grafana/k6
     entrypoint: [""]

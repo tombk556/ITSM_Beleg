@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: vuejs-app
-        image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/kube/frontend:latest
+        image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/kube/frontend
         imagePullPolicy: Always
         resources:
           limits:

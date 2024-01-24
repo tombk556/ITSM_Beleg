@@ -102,3 +102,10 @@ pytest tests
 ```bash
 pytest tests --capture=no
 ```
+
+
+
+az aks get-credentials --resource-group itsmgruppe1_group --name itsmgruppe1cluster
+
+docker run -it --rm --name kubectl -v $(pwd):/project -v $(pwd)/kube:/root/.kube dtzar/helm-kubectl:latest bash
+

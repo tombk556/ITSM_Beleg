@@ -4,7 +4,8 @@ deploy:
     entrypoint: ['']
   script:
     - mkdir -p /root/.kube
-    - cat $KUBECONFIG > /root/.kube/config
+    - cat $KUBECONFIG > /root/.kube/config 
+    - head -n 10 /root/.kube/config 
     - kubectl cluster-info
 
 

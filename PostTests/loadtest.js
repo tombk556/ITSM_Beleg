@@ -1,7 +1,7 @@
 import http from 'k6/http'
 import { sleep } from 'k6'
 
-let remoteip = "4.207.199.248:8000"; // Ziel ip und port
+let remoteip = "127.0.0.1:8000"; // Ziel ip und port
 //let remoteip = "127.0.0.1:8000"; // Ziel ip und port
 
 //definition der (Abbruch-)Bediengungen

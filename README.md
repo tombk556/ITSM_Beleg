@@ -1,60 +1,40 @@
-# Welcome to ITSM Beleg 
+# ITSM Beleg
 
-Konrad Adamski, Ayana Ochirova, s87654, Tom Bischopink
+Hochschule für Wirtschaft und Technik präsentiert: **ITSM Beleg Wintersemster 23/24**
 
-# Run with Docker
-
-### Install Docker Desktop 
-
-https://www.docker.com/products/docker-desktop/
-
-### Set .env file with env variables
-
-- create a **.env** file 
-- put the following variables into the file to access the ServiceNow API:
-
-```bash
-INSTANCESN=yourinstancename
-USERNAMESN=yourusername
-PASSWORDSN=yourpassword
-```
-
-### Run Docker Compose application:
-
-```bash
-docker-compose up
-```
-
-After: visit **http://127.0.0.1:8080** to access frontend (UI) and **http://127.0.0.1:8080** to access backend!
-
-### Access Images:
-
-**FastAPI Backend:**
-```bash
-docker exec -it fastapi_backend /bin/bash
-```
+von **Konrad Adamski, Ayana Ochirova, Nitzsche Charanjit und Tom Bischopink**
 
 # Setup for Development
 
-## **Mac/Unix**
+Follow these steps to run the whole application on your system, which consists of:
+
+- Backend - FastAPI
+- Frontend - Vuejs
+
+## Setup: Backend - FastAPI
+
 ### Create Virtual Environment
-```bash 
+
+```bash
 python3.9 -m venv .venv
 ```
+
 ### Acitvate Virtual Environment
+
 ```bash
 Source .venv/bin/activate
 ```
 
 ### Install requirements.txt
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### Add .env variables
 
-- create a **.env** file 
-- put the following variables into the file to access the ServiceNow API:
+- create a **.env** file
+- put the following ServiceNow Lab instance credentials into the .env file
 
 ```bash
 INSTANCE_SN=yourinstancename
@@ -62,50 +42,93 @@ USERNAME_SN=yourusername
 PASSWORD_SN=yourpassword
 ```
 
-### Run Unit Tests
+**Note**: the INSTANCE_SN variable should look like this: **nowlearning-nlinst12341234-1234**
+
+### Start the FastAPI Backend Server
+
+Start the FastAPI Backend Server running this command:
+
+```bash
+uvicorn app.main:app
+```
+
+Open the following URL: **http://127.0.0.1:8000**
+
+You should be greeted by the following message:
+
+```text
+"Server is running - Version 0.14.1"
+```
+
+## Setup: Frontend - Vuejs
+
+Vuejs is the frontend interface to manage all the ServiceNow Incidents.
+To run the Vuejs application, make sure the FastAPI Backend and the ServiceNow Lab instance are running in the background.
+
+Run the following commands on another terminal window, inside the project directory. Make sure to install **npm** and other dependencies to run the Vuejs framework on your system.
+
+```bash
+cd frontend
+
+npm install
+
+npm run build
+
+npm install -g http-server
+
+http-server dist
+```
+
+Afterwards, open the following URL **http://127.0.0.1:8080**
+
+If the FastAPI backend and the ServiceNow Lab instance are properly configured and running, you should see a list of incidents from ServiceNow.
+
+# Tests
+
+## Unit Tests
+
+To run the unit tests run the following cmd:
 
 ```bash
 pytest ./tests --capture=no
 ```
 
-### Start fastapi server
+Make sure your ServiceNow Lab instance is running.
+
+## Integration and Load Tests
+
+Get k6 running on your system by downloading the latest docker image.
+
+Make sure the FastAPI backend server and the ServiceNow lab credentials are running in the background (the tests are performed locally on 127.0.0.1:8000).
+
 ```bash
-uvicorn app.main:app --reload
+k6 run ./PostTests/loadtest.js
+k6 run ./PostTests/integrationtest.js
 ```
 
+# Run with Docker
 
-## **Windows**
-### Create Virtual Environment
-```bash 
-python -m venv venv
-```
-### Acitvate Virtual Environment
+You can also run the whole application using **Docker**.
+
+Export your ServiceNow Lab instance credentials on your system.
+
 ```bash
-venv/Scripts/activate
+export INSTANCE_SN=yourinstancename
+export USERNAME_SN=yourusername
+export PASSWORD_SN=yourpassword
 ```
 
-### Install requirements.txt 
+**Note**: the INSTANCE_SN variable should look like this: **nowlearning-nlinst12341234-1234**
+
+### Run docker-compose up:
+
 ```bash
-pip install -r requirements.txt
+docker-compose up
 ```
 
-### Start fastapi server
-```bash
-uvicorn app.main:app --reload
-```
+Make sure your ServiceNow Lab instance is valid and running in the background.
 
-## **Tests**
-To run the tests run the following cmd:
-```bash
-pytest tests
-```
-```bash
-pytest tests --capture=no
-```
+After successfully launching the docker containers visit:
 
-
-
-az aks get-credentials --resource-group itsmgruppe1_group --name itsmgruppe1cluster
-
-docker run -it --rm --name kubectl -v $(pwd):/project -v $(pwd)/kube:/root/.kube dtzar/helm-kubectl:latest bash
-
+- **http://127.0.0.1:8080** to access the Vuejs frontend and
+- **http://127.0.0.1:8080** to access the FastAPI backend

@@ -5,6 +5,7 @@ services:
     container_name: fastapi_backend_local
     build:
       dockerfile: Dockerfile.backend
+    # image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/backend
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0"]
     ports:
       - 8000:8000
@@ -13,5 +14,6 @@ services:
     container_name: vuejs_frontend_local
     build:
       dockerfile: Dockerfile.frontend
+    # image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/frontend
     ports:
       - 8080:8080

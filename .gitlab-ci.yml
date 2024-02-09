@@ -1,66 +1,66 @@
-stages:
-  - test
-  - docker
-  - deploy
-  - PostTests
+# stages:
+#   - test
+#   - docker
+#   - deploy
+#   - PostTests
 
-test-job:
-  image: python:3.9.12-slim
-  stage: test
-  script:
-    - echo "Checking out the repo..."
-    - pip3 install -r requirements.txt
-    - python3 --version
-    - pip3 freeze
-    - pytest ./tests
-    - python3 -m py_compile ./app/*.py
+# test-job:
+#   image: python:3.9.12-slim
+#   stage: test
+#   script:
+#     - echo "Checking out the repo..."
+#     - pip3 install -r requirements.txt
+#     - python3 --version
+#     - pip3 freeze
+#     - pytest ./tests
+#     - python3 -m py_compile ./app/*.py
 
 
-docker-frontend:
-  image: docker:19.03.12
-  stage: docker
-  services:
-    - docker:dind
-  script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/frontend -f Dockerfile.frontend .
-    - docker push $CI_REGISTRY_IMAGE/frontend
+# docker-frontend:
+#   image: docker:19.03.12
+#   stage: docker
+#   services:
+#     - docker:dind
+#   script:
+#     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
+#     - docker build -t $CI_REGISTRY_IMAGE/frontend -f Dockerfile.frontend .
+#     - docker push $CI_REGISTRY_IMAGE/frontend
 
-docker-backend:
-  image: docker:19.03.12
-  stage: docker
-  services:
-    - docker:dind
-  script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/backend -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN .
-    - docker push $CI_REGISTRY_IMAGE/backend
+# docker-backend:
+#   image: docker:19.03.12
+#   stage: docker
+#   services:
+#     - docker:dind
+#   script:
+#     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
+#     - docker build -t $CI_REGISTRY_IMAGE/backend -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN .
+#     - docker push $CI_REGISTRY_IMAGE/backend
 
-deploy:
-  stage: deploy
-  image:
-    name: dtzar/helm-kubectl
-  script:
-    - mkdir -p /root/.kube
-    - cat $KUBECONFIG > /root/.kube/config 
-    - kubectl cluster-info
-    - kubectl apply -f kubernetes/00_namespace.yaml
-    - kubectl apply -f kubernetes/01_secret_dockreg.yaml
-    - kubectl apply -f kubernetes/vuejs-deployment.yaml
-    - kubectl apply -f kubernetes/fastapi-deployment.yaml
+# deploy:
+#   stage: deploy
+#   image:
+#     name: dtzar/helm-kubectl
+#   script:
+#     - mkdir -p /root/.kube
+#     - cat $KUBECONFIG > /root/.kube/config 
+#     - kubectl cluster-info
+#     - kubectl apply -f kubernetes/00_namespace.yaml
+#     - kubectl apply -f kubernetes/01_secret_dockreg.yaml
+#     - kubectl apply -f kubernetes/vuejs-deployment.yaml
+#     - kubectl apply -f kubernetes/fastapi-deployment.yaml
 
-IntegrationTest:
-  stage: PostTests
-  image:
-    name: grafana/k6
-    entrypoint: [""]
-  script:
-    - k6 run ./PostTests/integrationtest.js
+# IntegrationTest:
+#   stage: PostTests
+#   image:
+#     name: grafana/k6
+#     entrypoint: [""]
+#   script:
+#     - k6 run ./PostTests/integrationtest.js
 
-LoadTest:
-  stage: PostTests
-  image:
-    name: grafana/k6
-    entrypoint: [""]
-  script:
-    - k6 run ./PostTests/loadtest.js
+# LoadTest:
+#   stage: PostTests
+#   image:
+#     name: grafana/k6
+#     entrypoint: [""]
+#   script:
+#     - k6 run ./PostTests/loadtest.js

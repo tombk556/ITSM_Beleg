@@ -3,6 +3,7 @@ version: '3'
 services:
   fastapi_backend_local:
     container_name: fastapi_backend_local
+    env_file: .env
     build:
       dockerfile: Dockerfile.backend
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0"]

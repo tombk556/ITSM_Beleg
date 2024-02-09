@@ -108,17 +108,14 @@ k6 run ./PostTests/integrationtest.js
 
 # Run with Docker
 
-You can also run the whole application using **Docker**.
-
-Export your ServiceNow Lab instance credentials on your system.
+- create a **.env** file
+- put the following ServiceNow Lab instance credentials into the .env file
 
 ```bash
-export INSTANCE_SN=yourinstancename
-export USERNAME_SN=yourusername
-export PASSWORD_SN=yourpassword
+INSTANCE_SN=yourinstancename
+USERNAME_SN=yourusername
+PASSWORD_SN=yourpassword
 ```
-
-**Note**: the INSTANCE_SN variable should look like this: **nowlearning-nlinst12341234-1234**
 
 ### Run docker-compose up:
 

@@ -108,12 +108,13 @@ k6 run ./PostTests/integrationtest.js
 
 # Run with Docker
 
-- export the ServiceNow credentials on your system
+- create a **.env** file (same as before)
+- put the following ServiceNow Lab instance credentials into the .env file
 
 ```bash
-export INSTANCE_SN=yourinstancename
-export USERNAME_SN=yourusername
-export PASSWORD_SN=yourpassword
+INSTANCE_SN=yourinstancename
+USERNAME_SN=yourusername
+PASSWORD_SN=yourpassword
 ```
 
 ### Run docker-compose up:

@@ -13,6 +13,8 @@ Follow these steps to run the whole application on your system, which consists o
 
 ## Setup: Backend - FastAPI
 
+Please install Python 3.9 or higher. Make sure the packages in requirements.txt are installed properly in the next steps.
+
 ### Create Virtual Environment
 
 ```bash
@@ -57,8 +59,10 @@ Open the following URL: **http://127.0.0.1:8000**
 You should be greeted by the following message:
 
 ```text
-"Server is running - Version 0.14.1"
+"Server is running - Version 0.14.1 ..."
 ```
+
+Visit **https://127.0.0.1:8000/docs** to get all routes for managing the ServiceNow Incidents.
 
 ## Setup: Frontend - Vuejs
 

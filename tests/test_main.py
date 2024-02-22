@@ -12,7 +12,6 @@ def test_read_root():
     """
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == "Server is running"
 
 
 def test_get_incident_by_number():

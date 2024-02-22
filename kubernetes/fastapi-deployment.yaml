@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: itsmbeleg
+  name: fastapi-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi-app
+  template:
+    metadata:
+      labels:
+        app: fastapi-app
+    spec:
+      containers:
+      - name: fastapi-app
+        image: registry.gitlab.com/itsmwise2023/gruppe1/gruppe1/kube/backend
+        imagePullPolicy: Always
+        command: ["uvicorn", "app.main:app", "--host", "0.0.0.0"]
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "512Mi"
+          requests:
+            cpu: "1m"
+            memory: "1Mi"
+      imagePullSecrets:
+      - name: gitlab-reg-cred
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-app-service
+  namespace: itsmbeleg
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    app: fastapi-app

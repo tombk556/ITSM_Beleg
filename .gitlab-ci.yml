@@ -1,5 +1,4 @@
 stages:
-  - build
   - test
   - docker_prod
   - docker_local
@@ -28,74 +27,59 @@ test-job:
     - python3 --version
     - pip3 freeze
     - pytest ./tests
-  dependencies:
-    - build-job
+    - python3 -m py_compile ./app/*.py
 
-docker-frontend-local:
+docker-frontend:
   image: docker:19.03.12
-  stage: docker_local
+  stage: docker
   services:
     - docker:dind
   script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/local/frontend -f Dockerfile.frontend .
-    - docker push $CI_REGISTRY_IMAGE/local/frontend
-  only:
-    - main
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - docker build -t $CI_REGISTRY_IMAGE/frontend -f Dockerfile.frontend .
+    - docker push $CI_REGISTRY_IMAGE/frontend
 
-docker-backend-local:
+docker-backend:
   image: docker:19.03.12
-  stage: docker_local
+  stage: docker
   services:
     - docker:dind
   script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/local/backend -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN .
-    - docker push $CI_REGISTRY_IMAGE/local/backend
-  only:
-    - main
-    
-docker-frontend-prod:
-  image: docker:19.03.12
-  stage: docker_prod
-  services:
-    - docker:dind
-  script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/production/frontend -f Dockerfile.frontend .
-    - docker push $CI_REGISTRY_IMAGE/production/frontend
-  only:
-    - production
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - docker build -t $CI_REGISTRY_IMAGE/backend -f Dockerfile.backend --build-arg VAR1=$INSTANCE_SN --build-arg VAR2=$PASSWORD_SN --build-arg VAR3=$USERNAME_SN .
+    - docker push $CI_REGISTRY_IMAGE/backend
 
-docker-backend-prod:
-  image: docker:19.03.12
-  stage: docker_prod
-  services:
-    - docker:dind
+deploy:
+  stage: deploy
+  image:
+    name: dtzar/helm-kubectl
   script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin 
-    - docker build -t $CI_REGISTRY_IMAGE/production/backend -f Dockerfile.backend --build-arg VAR1=$INSTANCESN --build-arg VAR2=$PASSWORDSN --build-arg VAR3=$USERNAMESN .
-    - docker push $CI_REGISTRY_IMAGE/production/backend
+    - mkdir -p /root/.kube
+    - cat $KUBECONFIG > /root/.kube/config
+    - kubectl cluster-info
+    - kubectl apply -f kubernetes/00_namespace.yaml
+    - kubectl apply -f kubernetes/01_secret_dockreg.yaml
+    - kubectl apply -f kubernetes/vuejs-deployment.yaml
+    - kubectl apply -f kubernetes/fastapi-deployment.yaml
   only:
-    - production
+  - production
 
 IntegrationTest:
-  stage: PostTests
+  stage: posttests
   image:
     name: grafana/k6
     entrypoint: [""]
   script:
     - k6 run ./PostTests/integrationtest.js
   only:
-    - main
+    - production
 
 LoadTest:
-  stage: PostTests
+  stage: posttests
   image:
     name: grafana/k6
     entrypoint: [""]
   script:
     - k6 run ./PostTests/loadtest.js
   only:
-    - main
-
+    - production

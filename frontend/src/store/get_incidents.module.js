@@ -1,6 +1,7 @@
 import GetIncidentsService from "@/services/GetIncidentsService";
 import GetIncidentsByStateService from "@/services/GetIncidentsByStateService";
 import GetIncidentByNumberService from "@/services/GetIncidentByNumberService";
+import GetIncidentsSinceYesterdayService from "@/services/GetIncidentsSinceYesterdayService";
 
 export default {
   namespaced: true,
@@ -51,6 +52,15 @@ export default {
           // Optionally handle errors here
         }
       }
-    }
+    },
+    async getIncidentsSinceYesterday({ commit }) {
+      try {
+        const response = await GetIncidentsSinceYesterdayService.getAll();
+        commit('setIncidents', response.data);
+      } catch (error) {
+        console.error(error);
+        // Optionally handle errors here
+      }
+    },
   }
 }

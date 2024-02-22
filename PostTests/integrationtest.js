@@ -3,7 +3,7 @@ import { Counter } from 'k6/metrics'
 import { check as loadTestingCheck, sleep } from 'k6'
 
 let failedTestCases = new Counter('failedTestCases');  // (mit "Erwartung", dass es 0 bleibt)
-let remoteip = "4.231.134.197:8000"
+let remoteip = "127.0.0.1:8000"
 
 export let options = {
     thresholds: {

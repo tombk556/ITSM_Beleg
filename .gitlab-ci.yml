@@ -1,8 +1,8 @@
 stages:
   - test
-  - docker_prod
-  - docker_local
-  - PostTests
+  - docker
+  - deploy
+  - posttests
 
 build-job:
   image: python:3.9.12-slim
